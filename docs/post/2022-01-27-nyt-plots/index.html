@@ -10,8 +10,8 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg">
-    <meta property="twitter:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg" />
+    <meta property="og:image" content="https://nickpaul7.github.io/website//img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://nickpaul7.github.io/website//img/home-bg-jeep.jpg" />
     
 
     
@@ -32,22 +32,22 @@
     
 
     <meta name="keyword"  content="Nick Paul, Analyltics">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="/website/img/favicon.ico">
 
     <title>Advanced Data Visualization with R and ggplot2: Recreating the New York Times COVID Tracker-Nick Paul Blog</title>
 
-    <link rel="canonical" href="/post/2022-01-27-nyt-plots/">
+    <link rel="canonical" href="/website/website/post/2022-01-27-nyt-plots/">
 
-    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
-
-    
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/website/css/iDisqus.min.css"/>
 
     
-    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+    <link rel="stylesheet" href="/website/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" href="/css/zanshang.css">
+    <link rel="stylesheet" href="/website/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/website/css/zanshang.css">
 
     
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
@@ -57,13 +57,13 @@
 
     
     
-    <script src="/js/jquery.min.js"></script>
+    <script src="/website/js/jquery.min.js"></script>
 
     
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/website/js/bootstrap.min.js"></script>
 
     
-    <script src="/js/hux-blog.min.js"></script>
+    <script src="/website/js/hux-blog.min.js"></script>
 
     
     
@@ -84,7 +84,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Nick Paul&#39;s Blog</a>
+            <a class="navbar-brand" href="/website/">Nick Paul&#39;s Blog</a>
         </div>
 
         
@@ -93,33 +93,33 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/">Home</a>
+                        <a href="/website/">Home</a>
                     </li>
                     
                         
                         <li>
-                            <a href="/categories/analytics">analytics</a>
+                            <a href="/website/categories/analytics">analytics</a>
                         </li>
                         
                         <li>
-                            <a href="/categories/data-collection">data-collection</a>
+                            <a href="/website/categories/data-collection">data-collection</a>
                         </li>
                         
                         <li>
-                            <a href="/categories/data-visualization">data-visualization</a>
+                            <a href="/website/categories/data-visualization">data-visualization</a>
                         </li>
                         
                     
                     
 		    
-                        <li><a href="/top/archive/">ARCHIVE</a></li>
+                        <li><a href="/website/top/archive/">ARCHIVE</a></li>
                     
-                        <li><a href="/top/about/">ABOUT</a></li>
+                        <li><a href="/website/top/about/">ABOUT</a></li>
                     
 
                     
 		    <li>
-                        <a href="/search"><i class="fa fa-search"></i></a>
+                        <a href="/website/search"><i class="fa fa-search"></i></a>
 		    </li>
                     
                 </ul>
@@ -163,7 +163,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/img/home-bg-jeep.jpg')
+        background-image: url('/website/img/home-bg-jeep.jpg')
     }
 </style>
 
@@ -175,11 +175,11 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/r" title="R">
+                        <a class="tag" href="/website/tags/r" title="R">
                             R
                         </a>
                         
-                        <a class="tag" href="/tags/ggplot2" title="ggplot2">
+                        <a class="tag" href="/website/tags/ggplot2" title="ggplot2">
                             ggplot2
                         </a>
                         
@@ -269,7 +269,7 @@ glimpse(df_ny_raw)</code></pre>
 <pre class="r"><code>df_ny_raw %&gt;% 
     ggplot(aes(x = date, y = cases)) +
     geom_line()</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>In order to get the case count for each day, we need to take the difference between the current date and the previous date. We can do this using the <code>lag()</code> function from <code>dplyr</code>.</p>
 <pre class="r"><code>df_ny = df_ny_raw %&gt;% 
     mutate(cases = cases - lag(cases,
@@ -278,7 +278,7 @@ glimpse(df_ny_raw)</code></pre>
 df_ny %&gt;% 
     ggplot(aes(x = date, y = cases)) +
     geom_line()</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>We now have cases-per-day, but our line is not as smooth as the NYT chart above. The NYT uses a smoothed 7-day average in order to minimize the day-to-day variability and highlight the longer-term trends.</p>
 <p>To create the 7-day average, we will sum the case counts from the current day and the previous 6 days and divide by 7.</p>
 <pre class="r"><code>df_ny_smooth = df_ny %&gt;% 
@@ -329,7 +329,7 @@ df_ny_smooth</code></pre>
     geom_area(fill = &quot;red&quot;, alpha = .25)
 
 plot_nyt</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="update-the-theme" class="section level2">
 <h2>Update the Theme</h2>
@@ -347,7 +347,7 @@ theme(
           axis.line.x = element_line(colour = &quot;light grey&quot;, linetype = &quot;solid&quot;,
                                      size = .5))
 plot_nyt</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="adjust-the-scales" class="section level2">
 <h2>Adjust the Scales</h2>
@@ -364,7 +364,7 @@ plot_nyt &lt;- plot_nyt +
          x = NULL,
          title = &quot;New Reported Cases: New York&quot;)
 plot_nyt</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="add-annotations" class="section level2">
 <h2>Add Annotations</h2>
@@ -395,7 +395,7 @@ label_vals </code></pre>
              y = label_vals$smooth, 
              yend = label_vals$smooth * 1.2,
              size = .25) </code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>There you have it, a quality chart worthy of publication in the New York Times. This example should be easy to adapt to any similar time-series data you might have. Good luck!</p>
 </div>
 
@@ -406,13 +406,13 @@ label_vals </code></pre>
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/post/2022-01-25-data-viz/" data-toggle="tooltip" data-placement="top" title="6 Data Visualization Fundamentals Every Data Scientist Needs to Know">&larr;
+                        <a href="/website/post/2022-01-25-data-viz/" data-toggle="tooltip" data-placement="top" title="6 Data Visualization Fundamentals Every Data Scientist Needs to Know">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/post/2022-02-01-webscraping101/" data-toggle="tooltip" data-placement="top" title="Data Science Toolkit: Web Scraping with R">Next
+                        <a href="/website/post/2022-02-01-webscraping101/" data-toggle="tooltip" data-placement="top" title="Data Science Toolkit: Web Scraping with R">Next
                             Post &rarr;</a>
                     </li>
                     
@@ -441,25 +441,25 @@ label_vals </code></pre>
                         
                         
                         
-                        <a href="/tags/bokeh" title="bokeh">
+                        <a href="/website/tags/bokeh" title="bokeh">
                             bokeh
                         </a>
                         
                         
                         
-                        <a href="/tags/ggplot2" title="ggplot2">
+                        <a href="/website/tags/ggplot2" title="ggplot2">
                             ggplot2
                         </a>
                         
                         
                         
-                        <a href="/tags/mlb" title="mlb">
+                        <a href="/website/tags/mlb" title="mlb">
                             mlb
                         </a>
                         
                         
                         
-                        <a href="/tags/nhl" title="nhl">
+                        <a href="/website/tags/nhl" title="nhl">
                             nhl
                         </a>
                         
@@ -467,13 +467,13 @@ label_vals </code></pre>
                         
                         
                         
-                        <a href="/tags/python" title="python">
+                        <a href="/website/tags/python" title="python">
                             python
                         </a>
                         
                         
                         
-                        <a href="/tags/r" title="r">
+                        <a href="/website/tags/r" title="r">
                             r
                         </a>
                         

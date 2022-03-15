@@ -1,5 +1,5 @@
 ---
-title: Webscraping 2
+title: '5 Tips to Improve your Data Science Process'
 author: ''
 date: '2022-02-03'
 slug: []
@@ -9,3 +9,15 @@ subtitle: ''
 description: ''
 image: ''
 ---
+
+
+1. Do not start with the Data
+2. Write code for humans, mainly yourself
+
+working code should not be confused with good code. Even the speed that code runs is not always that important. Unless you are writing code that supports a real-time app, the time saved by fast running code is often miniscule when compared to the time lost trying to decipher what code is doing. speed of your code is ussually not as important as the time 
+
+3. refactor your code
+
+write modular code. 
+
+4. Document what you are doing

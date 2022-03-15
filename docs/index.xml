@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nick Paul&#39;s Blog</title>
-    <link>http://www.nickpaul.info/</link>
+    <link>https://nickpaul7.github.io/website/</link>
     <description>Recent content on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://nickpaul7.github.io/website/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Data Science Toolkit: Web Scraping with R</title>
-      <link>http://www.nickpaul.info/post/2022-02-01-webscraping101/</link>
+      <link>https://nickpaul7.github.io/website/post/2022-02-01-webscraping101/</link>
       <pubDate>Tue, 01 Feb 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2022-02-01-webscraping101/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2022-02-01-webscraping101/</guid>
       <description>Web Scraping Basics Elements Simple Example CSS Selectors Real World Example  Web Scraping is important tool every Data Scientist should be familiar with. Often the data a client wants to analyze is not neatly packed in jsons or an enterprise data base, and you need to collect it yourself. When the data you need is on a webpage and there is no API available, web scraping will be the tool you need.</description>
     </item>
     
     <item>
       <title>Advanced Data Visualization with R and ggplot2: Recreating the New York Times COVID Tracker</title>
-      <link>http://www.nickpaul.info/post/2022-01-27-nyt-plots/</link>
+      <link>https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/</link>
       <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2022-01-27-nyt-plots/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2022-01-27-nyt-plots/</guid>
       <description>In a previous article, I mentioned the need to find mentors to enhance your ability to create clear, concise, and meaningful data visualizations. The New York Times is one example I highly recommend you follow. They do an excellent job of creating information rich charts that are understandable to a wide variety of people. One example is their COVID 19 tacker.
 NYT New York COVID Tracker
  You may be thinking, sure, that chart looks great, but I have no idea how to create something like this.</description>
@@ -29,49 +29,49 @@ NYT New York COVID Tracker
     
     <item>
       <title>6 Data Visualization Fundamentals Every Data Scientist Needs to Know</title>
-      <link>http://www.nickpaul.info/post/2022-01-25-data-viz/</link>
+      <link>https://nickpaul7.github.io/website/post/2022-01-25-data-viz/</link>
       <pubDate>Tue, 25 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2022-01-25-data-viz/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2022-01-25-data-viz/</guid>
       <description>Introudction Understand the Power of Data Viz Start With the Big Picture Design With Your Audience in Mind Focus On Details Find Mentors Practice  Introduction Whether you are just starting out on your data science journey or been in the game for a while, there is never a shortage of things to learn or skills to pickup. One must-have skill all data scientist need in their toolkit is the ability to create clear, concise, and meaningful Data Visualizations.</description>
     </item>
     
     <item>
       <title>Collecting Historical Weather Data</title>
-      <link>http://www.nickpaul.info/post/2022-01-13-weather-intro/</link>
+      <link>https://nickpaul7.github.io/website/post/2022-01-13-weather-intro/</link>
       <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2022-01-13-weather-intro/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2022-01-13-weather-intro/</guid>
       <description>Introudction Pull the Data Transform the Data Find Something of Interest Model the Data Visualize the Results Conclusion  Introduction I was recently exploring different options to collect historical weather data for an NFL model I am working on and found there is no shortage of weather API options, including many paid services that want to sell you their product.
 Given that US Government collects a lot of the commercial weather data, I was hoping to find a free option.</description>
     </item>
     
     <item>
       <title>NHL API - Collect Rosters</title>
-      <link>http://www.nickpaul.info/post/2021-12-07-nhl-api-collect-rosters/</link>
+      <link>https://nickpaul7.github.io/website/post/2021-12-07-nhl-api-collect-rosters/</link>
       <pubDate>Tue, 07 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-12-07-nhl-api-collect-rosters/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2021-12-07-nhl-api-collect-rosters/</guid>
       <description>Import Libraries Collect Team Info Collect Roster Collect Career Stats Collect All Players in a Season  In this post we will explore how to get roster data for each NHL team. We will then look at how to get career stats for each player on a particular roster. Finally, we will get career stats for all players from a particular season.
 Import Libraries import requests import json import pandas as pd  Collect Team Info The first step is to collect data about NHL teams.</description>
     </item>
     
     <item>
       <title>Ovechkin May Not Hold the NHL All-Time Goal Record for Long</title>
-      <link>http://www.nickpaul.info/post/2021-12-06-nhl-mcdavid/</link>
+      <link>https://nickpaul7.github.io/website/post/2021-12-06-nhl-mcdavid/</link>
       <pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-12-06-nhl-mcdavid/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2021-12-06-nhl-mcdavid/</guid>
       <description>Active Top Goal Scorers Comparing to Ovechkin’s Pace Rising to a New Level Staying Healthy is Key  As we discussed in a previous post, Alex Ovechkin is on pace to break the NHL goal record, but he may not hold the record for long - there are two players who have similar numbers through their early 20s: Connor McDavid and Austin Matthews.
 Active Top Goal Scorers To determine which players have a chance at catching Ovechkin, let’s look at the active goals-per-game leaders.</description>
     </item>
     
     <item>
       <title>NHL API - Collect Career Stats</title>
-      <link>http://www.nickpaul.info/post/2021-12-03-nhl-api-single-season-stats/</link>
+      <link>https://nickpaul7.github.io/website/post/2021-12-03-nhl-api-single-season-stats/</link>
       <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-12-03-nhl-api-single-season-stats/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2021-12-03-nhl-api-single-season-stats/</guid>
       <description>Import Libraries Find Player ID Collect Data  The NHL has an unpublished API that makes grabbing stats pretty painless. In this post we will walk through how to grab year-by-year stats for a particular player using python.
 Import Libraries To get started, we will import the following libraries:
  requests - Conduct the API call json - Convert the returned data to a python list pandas - Conduct data manipulation  import requests import json import pandas as pd  Find Player ID To collect player data from the NHL API, we first need their player ID, which can be found using the NHL’s suggest end point.</description>
@@ -79,19 +79,19 @@ Import Libraries To get started, we will import the following libraries:
     
     <item>
       <title>Ovi will Break the Great One&#39;s Goal Record</title>
-      <link>http://www.nickpaul.info/post/2021-11-22-great8/</link>
+      <link>https://nickpaul7.github.io/website/post/2021-11-22-great8/</link>
       <pubDate>Mon, 22 Nov 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-11-22-great8/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2021-11-22-great8/</guid>
       <description>Goals per Season Refusing to Age Career Goals Through the Years Historic Goals by Age Ovi Projections  Ovi will Break the Great One’s Goal Record Alexander Ovechkin is the first player to have a legitimate chance at breaking the NHL goal record since Wayne Gretzky retired. And while some are saying he has chance, he is 36 and was 164 goals away from 894 when the 2021-2022 season started.</description>
     </item>
     
     <item>
       <title>Intro to Statcast Pitching Data</title>
-      <link>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</link>
+      <link>https://nickpaul7.github.io/website/post/2021-09-21-statcast-pitching-data/</link>
       <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2021-09-21-statcast-pitching-data/</guid>
       <description>Pitching Data Pitch Type Pitch Location Result  Statcast Pitching Data This post explores some of the statcast pitching dimensions and highlights some interesting ways to visualize the data.
 Pitch Type To get started, we will import a data set we collected in a previous post, which contains Aroldis Chapman’s pitch data from 2015-2021.
 df_chapman = readr::read_csv(&amp;quot;./chapman_20150301-20211001.csv&amp;quot;) Let’s start by identifying Chapman’s favortie ptich.
@@ -100,47 +100,47 @@ from bokeh.io import output_file, show, save from bokeh.</description>
     
     <item>
       <title>Collect Statcast Pitching Data</title>
-      <link>http://www.nickpaul.info/post/2021-09-20-statcast/</link>
+      <link>https://nickpaul7.github.io/website/post/2021-09-20-statcast/</link>
       <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-09-20-statcast/</guid>
+      <guid>https://nickpaul7.github.io/website/post/2021-09-20-statcast/</guid>
       <description>Intro Advice Collect Pitcher Data Next Steps  Intro to Statcast Data This post will serve as a short introduction to collecting statcast data.
  Focus on the Task When I first started collecting sports data, I built a number of homemade packages in R and python, which was a great learning experience - my package development, web scraping and API interaction skills all leveled up. There was, however, alot more time dedicated to collecting the data than actually analyzing the data.</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://www.nickpaul.info/search/placeholder/</link>
+      <link>https://nickpaul7.github.io/website/search/placeholder/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/search/placeholder/</guid>
+      <guid>https://nickpaul7.github.io/website/search/placeholder/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>http://www.nickpaul.info/top/about/</link>
+      <link>https://nickpaul7.github.io/website/top/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/top/about/</guid>
+      <guid>https://nickpaul7.github.io/website/top/about/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>http://www.nickpaul.info/top/books/</link>
+      <link>https://nickpaul7.github.io/website/top/books/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/top/books/</guid>
+      <guid>https://nickpaul7.github.io/website/top/books/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Posts Archive</title>
-      <link>http://www.nickpaul.info/top/archive/</link>
+      <link>https://nickpaul7.github.io/website/top/archive/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/top/archive/</guid>
+      <guid>https://nickpaul7.github.io/website/top/archive/</guid>
       <description></description>
     </item>
     
