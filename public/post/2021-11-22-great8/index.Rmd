@@ -1,0 +1,105 @@
+---
+title: Ovi will Break the Great One's Goal Record
+author: ' Nick Paul'
+date: '2021-11-22'
+slug: []
+categories: ['Analytics']
+tags: ['NHL', 'bokeh']
+subtitle: ''
+description: 'Alexander Ovechkin is the first player to have a legitimate chance at breaking the NHL goal record since Wayne Gretzky retired. Will he do it?'
+image: ''
+---
+1. [Goals per Season](#goals-per-season)
+1. [Refusing to Age](#refusing-to-age)
+1. [Career Goals Through the Years](#career-goals-through-the-years)
+1. [Historic Goals by Age](#historic-goals-by-age)
+1. [Ovi Projections](#ovi-projections)
+
+# Ovi will Break the Great One's Goal Record
+
+Alexander Ovechkin is the first player to have a legitimate chance at breaking the NHL goal record since Wayne Gretzky retired. And while some are saying he has chance, he is 36 and was 164 goals away from 894 when the 2021-2022 season started. So, can he do it? Let's look at the numbers. 
+
+## Goals per Season
+
+
+```{r message=FALSE, warning=FALSE, echo = FALSE}
+htmltools::includeHTML("gret_ovi_goals_per_season.html")
+```
+
+When we look at goals-per-season throughout their careers, we see a big difference between Gretzky and Ovi, especially as they aged - Gretzky's first 10 years are dramatically different from his last 10 years. This is partly due to Gretzky's unbelievable numbers early in his career - he 
+topped 70 goals four seasons in a row. Considering only 14 players have ever topped 70 goals in a season, four in a row is unbelievable. And as good as Gretzky was early, the second half was dramatically different, where he only topped 40 goals twice in his last 10 years.
+
+Ovi on the other hand has been extremely consistent to date. For example, in his last eight seasons he has exceeded his career average six times.  This is especially remarkable when you consider Gretzky never exceeded his career average in the last 10 seasons. 
+
+## Refusing to Age
+
+Ovi's refusal to age is even more apparent when we project goal totals for shortened seasons (COVID and lockouts). To do this, we create an adjusted goal total by multiplying the goals-per-game for a particular season by 79 games (the median number of games played for both Gretzky and Ovi).
+
+
+
+<!-- They both are amongst the leaders in 50 goal season, with Gretzky holding the record at 9 and Ovi currently at 8 (Ovi is projected to tie that mark this season), but all of Gretzky's occurred in the first 10 years and Ovi's have been sprinkled throughout his career. -->
+
+```{r, echo = FALSE}
+htmltools::includeHTML("career_goal_rates.html")
+```
+
+Their is a dramatic difference between Ovi's and Gretzky's trend lines. These lines tell the story of how Gretzky set the record - inconceivable numbers in the beginning followed by a slightly above average performance for a long period of time - and the path Ovi will have to follow to break the record - a top goal scorer year in and year out for 20 years. Both achievements really highlight how incredible the other player was or is: Gretzky scored so many goals early in his career that it takes a player being a top goal scorer almost every year of their career for 20 years to beat him and Ovi has been such a prolific scorer for so long that he can overtake a player that achieved single scoring seasons so great that they will never be broken.   
+
+
+
+## Career Goals Through the Years
+
+What if Ovi never slows down; how many seasons would it take him to break the record? Given his adjusted goal average of 50 goals a year, he needs four more seasons to break the record.    
+
+```{r, echo = FALSE}
+htmltools::includeHTML("gret_ovi_career_goals.html")
+```
+
+<!-- Toward the middle of their careers the goal disparity is at its highest point, but since that point, Ovi has been gaining ground. Additionally, if we were to assume Ovi's career were to continue at the same pace, he would break Gretzky's record easily in the 20th season. -->
+
+Is this likely though? Can a player really maintain the same goal rate for the entirety of their career? Let's see what history tells us about elite goal scorers as they age.
+
+
+## Historic Goals by Age
+
+To get an idea of what has been done before, we will compare Ovi and Gretzky to players from the elite 500+ goal club. To be specific, we will use the max and median goals scored at each age from players that belong to this elite club.  The max will give us a reasonable upper bound for our expectations, and, likewise, the median will give us a lower bound.
+
+```{r, echo = FALSE}
+htmltools::includeHTML("gret_ovi_goals_by_age.html")
+
+```
+
+We again see Gretzky's monumentous early career but average latter half and Ovi's ageless abilities. Gretzky set the record for goals at ages 18-23 and remained above the median of the elite 500+ goal club for the remainder of his first 10 years.  For his second ten years however, he was only an average elite scorer (and we call him the great one?!). 
+
+Ovi on the other hand, has consistently been above the median of the elite club, and in the last few years has been extremely close to or set a new record for goals at a particular age. The scoring total for most of the players in this elite group began to decline around 26, but 10 years later Ovi is still scoring at his same torrid pace. 
+
+Since he has outperformed expectations for 10 years, is it that hard to believe he would do it for four more? Would you have a hard time believing the greatest goal scorer of all-time was also the greatest goal scorer at age 35-40? I certainly would not. 
+
+## Ovi Projections
+
+Of course, at some point father time catches up with everybody (I am considering Tom Brady to be an alien or robot of some sort at this point), so let's look at where Ovi might stand if he were to decline like some of the greats of the past. Since we are talking about outliers here, simple models are best, so we will look at three simple but realistic projections: career average to date, max goals at each age from the 500+ goal club, and median goals at each age from the 500+ goal club.
+
+Why not a more complicated model? We are talking about a rare event and any model we build will be wrong. In this case Occam's razor is best: the simplest explanation is usually the correct one.
+
+<!-- Why not a more complicated model? The answer is simple. We are trying to determine if something that has never been done before will happen. Predicting the extremes is hard because you do not have data Using an overly complicated model would be filled with false assumptions   We cannot use a model to predict what will happen because it will take something that has never been done before to accomplish something that has never been done before.  -->
+
+```{r, echo = FALSE}
+htmltools::includeHTML("ovi_proj_career_goals.html")
+
+```
+
+As we saw earlier, if Ovi decides to be Tom Brady and stop aging - as he has done to date - then he will break the record in his 20th season - the same number of seasons it took Gretzky.
+
+If we assume he declines to a level equal to the greatest of the greats as he ages, he would break the record in his 21st season, which oddly enough is the length of his current contract (seems like his people know something). 
+
+But, if he were to decline more like the average of the elite goal scorers, he would break the record in his 25th season. While playing until he is 46 may seem crazy, his current teammate, Chara, will be 45 this season and he is not trying to break the most historic NHL record. I also cannot see him retiring at 41 with only 60 or so goals to go. Can you?
+
+Given all this data, I think the question is when will he break the record and not if. How many more years can he sustain a 50 goal pace? Since he is on pace for 60+ this year, how crazy is it to imagine him scoring 50 next year.  That would put him at 840 and only 54 short.  Most players of the elite 500+ club scored around 20 goals in these later years, which would put Ovi on course to break the record in year 21. This seems pretty likely from what we have seen. I am betting on Ovi!
+
+<!-- The carrot of his previous seasons success will likely always make it seem closer than it may actually be, but in the end will provide the motivation to keep on trucking and eventually reach the summit.    -->
+
+
+<!-- While the two models that have him break the record by year 21 may seem unrealistic for a player of his, would it really surprise you if the greatest goal scorer of all-time was also the greatest goal-scorer in the last five years of his career. The answer should be no. If fact, given what Ovi has done to date, I think you have to assume it is more likely than not that he will break the record. -->
+
+
+

@@ -1,0 +1,9 @@
+Aesthetics, Description
+x, Position on x-axis
+y, Position on y-axis
+shape, Shape
+color, Color of border of elements
+fill, Color of inside of elements
+size, Size
+alpha, Transparency (1: opaque; 0: transparent)
+linetype, Type of line (solid; dashed; etc.)

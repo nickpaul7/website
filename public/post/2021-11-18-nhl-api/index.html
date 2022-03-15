@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Nick Paul&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="NHL API Intro" />
+    <meta property="og:title" content="NHL API Intro" />
+    <meta property="twitter:title" content="NHL API Intro" />
+    
+
+    
+    <meta name="description" content="Intro the the NHL API">
+    <meta property="og:description" content="Intro the the NHL API" />
+    <meta property="twitter:description" content="Intro the the NHL API" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="Nick Paul, Analyltics">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>NHL API Intro-Nick Paul Blog</title>
+
+    <link rel="canonical" href="/post/2021-11-18-nhl-api/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nick Paul&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/analytics">analytics</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/nhl">nhl</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/archive/">ARCHIVE</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/home-bg-jeep.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        <a class="tag" href="/tags/api" title="api">
+                            api
+                        </a>
+                        
+                        <a class="tag" href="/tags/nhl" title="nhl">
+                            nhl
+                        </a>
+                        
+                    </div>
+                    <h1>NHL API Intro</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                 Nick Paul
+                             
+                            on 
+                            Thursday, November 18, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#nhl-api">NHL API</a>
+      <ul>
+        <li><a href="#endpoint-examples">Endpoint examples</a></li>
+        <li><a href="#get-team-info">Get Team Info</a></li>
+        <li><a href="#request-roster-data">Request Roster Data</a></li>
+        <li><a href="#player-stats">Player Stats</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                
+                <h1 id="nhl-api">NHL API</h1>
+<p>In this tutorial we will use the NHL API to practice pulling data from an API and formatting for a downstream process.</p>
+<p>The NHL API appears to be undocumented, but there are somed dedicated users that have published most of the functionality.  Below are links to the most helpful source I found.</p>
+<p><a href="https://gitlab.com/dword4/nhlapi">https://gitlab.com/dword4/nhlapi</a>
+<a href="https://gitlab.com/dword4/nhlapi/-/blob/master/records-api.md">https://gitlab.com/dword4/nhlapi/-/blob/master/records-api.md</a></p>
+<h2 id="endpoint-examples">Endpoint examples</h2>
+<p><a href="https://records.nhl.com/records/skater-records/goals/skater-most-goals-one-season">https://records.nhl.com/records/skater-records/goals/skater-most-goals-one-season</a>
+<a href="https://api.nhle.com/stats/rest/en/franchise?sort=fullName&amp;include=lastSeason.id&amp;include=firstSeason.id">https://api.nhle.com/stats/rest/en/franchise?sort=fullName&amp;include=lastSeason.id&amp;include=firstSeason.id</a></p>
+<p><a href="https://api.nhle.com/stats/rest/en/skater/summary?isAggregate=false&amp;isGame=false&amp;sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22goals%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22assists%22,%22direction%22:%22DESC%22%7D%5D&amp;start=0&amp;limit=50&amp;factCayenneExp=gamesPlayed%3E=1&amp;cayenneExp=franchiseId%3D32%20and%20gameTypeId=2%20and%20seasonId%3C=20192020%20and%20seasonId%3E=20192020">https://api.nhle.com/stats/rest/en/skater/summary?isAggregate=false&amp;isGame=false&amp;sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22goals%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22assists%22,%22direction%22:%22DESC%22%7D%5D&amp;start=0&amp;limit=50&amp;factCayenneExp=gamesPlayed%3E=1&amp;cayenneExp=franchiseId%3D32%20and%20gameTypeId=2%20and%20seasonId%3C=20192020%20and%20seasonId%3E=20192020</a></p>
+<p>Before we get started let&rsquo;s load the following libraries.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">import</span> requests
+<span style="color:#ff79c6">import</span> json
+<span style="color:#ff79c6">import</span> pandas <span style="color:#ff79c6">as</span> pd
+</code></pre></div><h2 id="get-team-info">Get Team Info</h2>
+<p>The first endpoint we will work with will give us infomation about the team:</p>
+<p><a href="https://statsapi.web.nhl.com/api/v1/teams">https://statsapi.web.nhl.com/api/v1/teams</a></p>
+<h3 id="get-request">Get Request</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">teams_url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://statsapi.web.nhl.com/api/v1/teams&#34;</span>
+
+team_response <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(teams_url)
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># check that reponse is valid</span>
+<span style="color:#8be9fd;font-style:italic">print</span>(team_response<span style="color:#ff79c6">.</span>status_code)
+</code></pre></div><pre><code>200
+</code></pre>
+<h3 id="api-status-code">API Status Code</h3>
+<p>200: Everything went okay, and the result has been returned (if any).<br>
+301: The server is redirecting you to a different endpoint. This can happen when a company switches domain names, or an endpoint name is changed.<br>
+400: The server thinks you made a bad request. This can happen when you don’t send along the right data, among other things.<br>
+401: The server thinks you’re not authenticated. Many APIs require login ccredentials, so this happens when you don’t send the right credentials to access an API.<br>
+403: The resource you’re trying to access is forbidden: you don’t have the right permissions to see it.<br>
+404: The resource you tried to access wasn’t found on the server.<br>
+503: The server is not ready to handle the request. <!-- raw HTML omitted --></p>
+<p>With 200 respone code we are good to start looking at the conent.</p>
+<h3 id="pull-out-the-content">Pull out the content</h3>
+<p>To get the conents of our reposne object, we can use two methods:</p>
+<ol>
+<li>.content with json.loads</li>
+<li>.json()</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># convert the content into a python dictionary</span>
+team_content <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>loads(team_response<span style="color:#ff79c6">.</span>content)
+<span style="color:#8be9fd;font-style:italic">type</span>(team_content)
+</code></pre></div><pre><code>dict
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">team_content<span style="color:#ff79c6">.</span>keys()
+</code></pre></div><pre><code>dict_keys(['copyright', 'teams'])
+</code></pre>
+<p>We can now access the contents of the data using dictionary actions.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">team_content[<span style="color:#f1fa8c">&#39;teams&#39;</span>][<span style="color:#bd93f9">0</span>]
+</code></pre></div><pre><code>{'id': 1,
+ 'name': 'New Jersey Devils',
+ 'link': '/api/v1/teams/1',
+ 'venue': {'name': 'Prudential Center',
+  'link': '/api/v1/venues/null',
+  'city': 'Newark',
+  'timeZone': {'id': 'America/New_York', 'offset': -5, 'tz': 'EST'}},
+ 'abbreviation': 'NJD',
+ 'teamName': 'Devils',
+ 'locationName': 'New Jersey',
+ 'firstYearOfPlay': '1982',
+ 'division': {'id': 18,
+  'name': 'Metropolitan',
+  'nameShort': 'Metro',
+  'link': '/api/v1/divisions/18',
+  'abbreviation': 'M'},
+ 'conference': {'id': 6, 'name': 'Eastern', 'link': '/api/v1/conferences/6'},
+ 'franchise': {'franchiseId': 23,
+  'teamName': 'Devils',
+  'link': '/api/v1/franchises/23'},
+ 'shortName': 'New Jersey',
+ 'officialSiteUrl': 'http://www.newjerseydevils.com/',
+ 'franchiseId': 23,
+ 'active': True}
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">team_response<span style="color:#ff79c6">.</span>json() <span style="color:#ff79c6">==</span> json<span style="color:#ff79c6">.</span>loads(team_response<span style="color:#ff79c6">.</span>content)
+</code></pre></div><pre><code>True
+</code></pre>
+<h3 id="convert-the-content-to-a-dataframe">Convert the content to a DataFrame</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4">#convert the dictionary into a dataframe</span>
+df_team_content <span style="color:#ff79c6">=</span> pd<span style="color:#ff79c6">.</span>DataFrame(team_content[<span style="color:#f1fa8c">&#39;teams&#39;</span>])
+df_team_content<span style="color:#ff79c6">.</span>head()
+<span style="color:#6272a4">#df_team_content.info()</span>
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4">#convert the types of most columns in the dataframe</span>
+df_team_content2 <span style="color:#ff79c6">=</span> df_team_content<span style="color:#ff79c6">.</span>convert_dtypes()
+df_team_content2<span style="color:#ff79c6">.</span>info()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 32 entries, 0 to 31
+Data columns (total 15 columns):
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   id               32 non-null     Int64  
+ 1   name             32 non-null     string 
+ 2   link             32 non-null     string 
+ 3   venue            32 non-null     object 
+ 4   abbreviation     32 non-null     string 
+ 5   teamName         32 non-null     string 
+ 6   locationName     32 non-null     string 
+ 7   firstYearOfPlay  32 non-null     string 
+ 8   division         32 non-null     object 
+ 9   conference       32 non-null     object 
+ 10  franchise        32 non-null     object 
+ 11  shortName        32 non-null     string 
+ 12  officialSiteUrl  32 non-null     string 
+ 13  franchiseId      32 non-null     Int64  
+ 14  active           32 non-null     boolean
+dtypes: Int64(2), boolean(1), object(4), string(8)
+memory usage: 3.8+ KB
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># find the rangers info</span>
+df_team_content2<span style="color:#ff79c6">.</span>query(<span style="color:#f1fa8c">&#34;teamName == &#39;Rangers&#39;&#34;</span>)
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h3 id="json_normalize-for-dataframe-conversion">json_normalize for DataFrame Conversion</h3>
+<p>Instead of placing the dicitonary in the DataFame function, we could also use the json_normalize function.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_team_content_jn <span style="color:#ff79c6">=</span> pd<span style="color:#ff79c6">.</span>json_normalize(team_content[<span style="color:#f1fa8c">&#39;teams&#39;</span>])
+df_team_content_jn<span style="color:#ff79c6">.</span>info()
+</code></pre></div><pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 32 entries, 0 to 31
+Data columns (total 29 columns):
+ #   Column                 Non-Null Count  Dtype  
+---  ------                 --------------  -----  
+ 0   id                     32 non-null     int64  
+ 1   name                   32 non-null     object 
+ 2   link                   32 non-null     object 
+ 3   abbreviation           32 non-null     object 
+ 4   teamName               32 non-null     object 
+ 5   locationName           32 non-null     object 
+ 6   firstYearOfPlay        32 non-null     object 
+ 7   shortName              32 non-null     object 
+ 8   officialSiteUrl        32 non-null     object 
+ 9   franchiseId            32 non-null     int64  
+ 10  active                 32 non-null     bool   
+ 11  venue.name             32 non-null     object 
+ 12  venue.link             32 non-null     object 
+ 13  venue.city             32 non-null     object 
+ 14  venue.timeZone.id      32 non-null     object 
+ 15  venue.timeZone.offset  32 non-null     int64  
+ 16  venue.timeZone.tz      32 non-null     object 
+ 17  division.id            32 non-null     int64  
+ 18  division.name          32 non-null     object 
+ 19  division.nameShort     32 non-null     object 
+ 20  division.link          32 non-null     object 
+ 21  division.abbreviation  32 non-null     object 
+ 22  conference.id          32 non-null     int64  
+ 23  conference.name        32 non-null     object 
+ 24  conference.link        32 non-null     object 
+ 25  franchise.franchiseId  32 non-null     int64  
+ 26  franchise.teamName     32 non-null     object 
+ 27  franchise.link         32 non-null     object 
+ 28  venue.id               26 non-null     float64
+dtypes: bool(1), float64(1), int64(6), object(21)
+memory usage: 7.2+ KB
+</code></pre>
+<p>Notice that the <code>json_normalize()</code> method flattend nested dictionaries by concatenating the keys.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_team_content_jn<span style="color:#ff79c6">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>If there are mulitple levles to the dictionary, each key will be concatenated.  For examample, consider the dictionary in the venue column.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">team_content[<span style="color:#f1fa8c">&#39;teams&#39;</span>][<span style="color:#bd93f9">0</span>][<span style="color:#f1fa8c">&#39;venue&#39;</span>]
+</code></pre></div><pre><code>{'name': 'Prudential Center',
+ 'link': '/api/v1/venues/null',
+ 'city': 'Newark',
+ 'timeZone': {'id': 'America/New_York', 'offset': -5, 'tz': 'EST'}}
+</code></pre>
+<p>Since the value for the <code>timezone</code> is a <code>dict</code> the parent keys (<code>venue</code>, <code>timeZone</code>) are concatenated with each key within <code>timeZone</code> (<code>id</code>, <code>offset</code>, <code>tz</code>)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_team_content_jn[<span style="color:#f1fa8c">&#34;venue.timeZone.tz&#34;</span>]<span style="color:#ff79c6">.</span>head()
+</code></pre></div><pre><code>0    EST
+1    EST
+2    EST
+3    EST
+4    EST
+Name: venue.timeZone.tz, dtype: object
+</code></pre>
+<p>We could also apply the <code>.json_normalize()</code> methond to a dictionary column to return dataframes.  Consider the <code>venue</code> column from our previous <code>df_team_content2</code> dataframe.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pd<span style="color:#ff79c6">.</span>json_normalize(df_team_content2<span style="color:#ff79c6">.</span>venue)<span style="color:#ff79c6">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<p>Now that we have looked at different approaches, lets use the result fromt he <code>.json_normalize()</code> going forward.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_team_content <span style="color:#ff79c6">=</span> df_team_content_jn
+</code></pre></div><h2 id="request-roster-data">Request Roster Data</h2>
+<p>Now that we have collected the basic team info, let&rsquo;s move down a level to collect roster information.</p>
+<h3 id="extracting-the-team-id-usign-regex">Extracting the team ID usign regex</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># get the rangers link to their team site</span>
+rangers_link <span style="color:#ff79c6">=</span> df_team_content<span style="color:#ff79c6">.</span>query(<span style="color:#f1fa8c">&#34;teamName == &#39;Rangers&#39;&#34;</span>)<span style="color:#ff79c6">.</span>link<span style="color:#ff79c6">.</span>values[<span style="color:#bd93f9">0</span>]
+rangers_link
+</code></pre></div><pre><code>'/api/v1/teams/3'
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#8be9fd;font-style:italic">type</span>(rangers_link)
+</code></pre></div><pre><code>str
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># get the rangers team id from the end of the url</span>
+<span style="color:#ff79c6">import</span> re
+
+pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;\d$&#34;</span>
+
+re<span style="color:#ff79c6">.</span>findall(pattern, rangers_link)
+</code></pre></div><pre><code>['3']
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4">#get the base url of the api</span>
+teams_url
+
+url_pattern <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;.+com&#34;</span>
+
+base_url <span style="color:#ff79c6">=</span> re<span style="color:#ff79c6">.</span>search(url_pattern, teams_url)<span style="color:#ff79c6">.</span>group()
+base_url
+</code></pre></div><pre><code>'https://statsapi.web.nhl.com'
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4">#create the url to get the rangers team info</span>
+rangers_url <span style="color:#ff79c6">=</span> base_url <span style="color:#ff79c6">+</span> rangers_link
+
+rangers_url
+</code></pre></div><pre><code>'https://statsapi.web.nhl.com/api/v1/teams/3'
+</code></pre>
+<h3 id="add-parameters-to-team-url">Add Parameters to Team URL</h3>
+<p>In order to get the roster data, we need to use modifier or the roster endpoint.</p>
+<ul>
+<li>?expand=team.roster</li>
+<li>/roster appended to the end of the url</li>
+</ul>
+<p>We also need to specify a season</p>
+<ul>
+<li>yyyyYYYYY format
+<ul>
+<li>yyyy:start year</li>
+<li>YYYY: end</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># create a url to get the rangers team roster info</span>
+params <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;?expand=team.roster&amp;season=20182019&#34;</span>
+rangers_roster_url <span style="color:#ff79c6">=</span> rangers_url <span style="color:#ff79c6">+</span> params
+rangers_roster_url
+</code></pre></div><pre><code>'https://statsapi.web.nhl.com/api/v1/teams/3?expand=team.roster&amp;season=20182019'
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">rangers_response <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(rangers_roster_url)
+rangers_response<span style="color:#ff79c6">.</span>status_code
+</code></pre></div><pre><code>200
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4">#convert the content</span>
+rangers_content <span style="color:#ff79c6">=</span> rangers_response<span style="color:#ff79c6">.</span>json()
+rangers_content<span style="color:#ff79c6">.</span>keys()
+</code></pre></div><pre><code>dict_keys(['copyright', 'teams'])
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">rangers_content[<span style="color:#f1fa8c">&#39;teams&#39;</span>][<span style="color:#bd93f9">0</span>][<span style="color:#f1fa8c">&#39;roster&#39;</span>][<span style="color:#f1fa8c">&#39;roster&#39;</span>][<span style="color:#bd93f9">1</span>]
+</code></pre></div><pre><code>{'person': {'id': 8471686,
+  'fullName': 'Marc Staal',
+  'link': '/api/v1/people/8471686'},
+ 'jerseyNumber': '18',
+ 'position': {'code': 'D',
+  'name': 'Defenseman',
+  'type': 'Defenseman',
+  'abbreviation': 'D'}}
+</code></pre>
+<h3 id="make-a-function-to-get-team-info">Make a function to get team info</h3>
+<p>Now that endpoints are leveraging parameters, it would be useful to create a function to simplify the creation of the API url.</p>
+<p>For now, the urls we are creating require a team number and season.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">test <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">19992000</span>
+test <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">str</span>(test)
+pattern <span style="color:#ff79c6">=</span> re<span style="color:#ff79c6">.</span>compile(<span style="color:#f1fa8c">&#39;\d</span><span style="color:#f1fa8c">{8}</span><span style="color:#f1fa8c">&#39;</span>)
+<span style="color:#8be9fd;font-style:italic">bool</span>(pattern<span style="color:#ff79c6">.</span>match(test))
+</code></pre></div><pre><code>True
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">create_team_roster_url</span>(team_number, season):
+    <span style="color:#ff79c6">from</span> sys <span style="color:#ff79c6">import</span> exit
+    
+    base_url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://statsapi.web.nhl.com/api/v1/teams/&#34;</span>
+ 
+    <span style="color:#6272a4">#verify team number makes sense</span>
+    <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">int</span>(team_number) <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">33</span>:
+        <span style="color:#ff79c6">raise</span> ValueError(<span style="color:#f1fa8c">&#34;Please use a correct value.  Team numbers must be less than 33&#34;</span>)
+
+    <span style="color:#6272a4"># convert to strings</span>
+    team_number <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">str</span>(team_number) <span style="color:#6272a4"># convert to a string in case a number was supplied</span>
+    season <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">str</span>(season)
+    
+    <span style="color:#6272a4">#verify the season is 8 digits</span>
+    pattern <span style="color:#ff79c6">=</span> re<span style="color:#ff79c6">.</span>compile(<span style="color:#f1fa8c">&#39;\d</span><span style="color:#f1fa8c">{8}</span><span style="color:#f1fa8c">&#39;</span>)
+    is_season_formatted <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">bool</span>(pattern<span style="color:#ff79c6">.</span>match(season))
+    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">not</span> is_season_formatted:
+        <span style="color:#ff79c6">raise</span> ValueError(<span style="color:#f1fa8c">&#34;You did not provide the season with 8 digits.  Specify start and end season with four digits and no spaces&#34;</span>)
+     
+    <span style="color:#6272a4"># combine the components into one url</span>
+    url <span style="color:#ff79c6">=</span> base_url <span style="color:#ff79c6">+</span> team_number <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;/roster/&#34;</span> <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;?season=&#34;</span> <span style="color:#ff79c6">+</span> season
+    <span style="color:#ff79c6">return</span> url
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">create_team_roster_url(<span style="color:#bd93f9">3</span>,<span style="color:#bd93f9">20192020</span>)
+</code></pre></div><pre><code>'https://statsapi.web.nhl.com/api/v1/teams/3/roster/?season=20192020'
+</code></pre>
+<h3 id="checking-errors">Checking Errors</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">create_team_roster_url(<span style="color:#bd93f9">3</span>,<span style="color:#bd93f9">2019</span>)
+</code></pre></div><pre><code>---------------------------------------------------------------------------
+
+ValueError                                Traceback (most recent call last)
+
+&lt;ipython-input-63-f09f6485bbbd&gt; in &lt;module&gt;
+----&gt; 1 create_team_roster_url(3,2019)
+
+
+&lt;ipython-input-61-803bcea8f4e1&gt; in create_team_roster_url(team_number, season)
+     16     is_season_formatted = bool(pattern.match(season))
+     17     if not is_season_formatted:
+---&gt; 18         raise ValueError(&quot;You did not provide the season with 8 digits.  Specify start and end season with four digits and no spaces&quot;)
+     19 
+     20     # combine the components into one url
+
+
+ValueError: You did not provide the season with 8 digits.  Specify start and end season with four digits and no spaces
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">create_team_roster_url(<span style="color:#bd93f9">100</span>,<span style="color:#bd93f9">20192020</span>)
+</code></pre></div><pre><code>---------------------------------------------------------------------------
+
+ValueError                                Traceback (most recent call last)
+
+&lt;ipython-input-64-7641c6e970a0&gt; in &lt;module&gt;
+----&gt; 1 create_team_roster_url(100,20192020)
+
+
+&lt;ipython-input-61-803bcea8f4e1&gt; in create_team_roster_url(team_number, season)
+      6     #verify team number makes sense
+      7     if int(team_number) &gt; 33:
+----&gt; 8         raise ValueError(&quot;Please use a correct value.  Team numbers must be less than 33&quot;)
+      9 
+     10     # convert to strings
+
+
+ValueError: Please use a correct value.  Team numbers must be less than 33
+</code></pre>
+<h3 id="send-get-request-for-rangers-data">Send Get Request for Rangers Data</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># get the rangers roster from 2019-2020</span>
+rangers_roster_url <span style="color:#ff79c6">=</span> create_team_roster_url(<span style="color:#bd93f9">3</span>,<span style="color:#bd93f9">20192020</span>) 
+rangers_response <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(rangers_roster_url)
+rangers_response<span style="color:#ff79c6">.</span>status_code
+</code></pre></div><pre><code>200
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># convert the roster</span>
+rangers_roster_content <span style="color:#ff79c6">=</span> rangers_response<span style="color:#ff79c6">.</span>json()[<span style="color:#f1fa8c">&#34;roster&#34;</span>]
+rangers_roster_content[<span style="color:#bd93f9">0</span>]
+</code></pre></div><pre><code>{'person': {'id': 8471686,
+  'fullName': 'Marc Staal',
+  'link': '/api/v1/people/8471686'},
+ 'jerseyNumber': '18',
+ 'position': {'code': 'D',
+  'name': 'Defenseman',
+  'type': 'Defenseman',
+  'abbreviation': 'D'}}
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># convert the roster to a dataframe</span>
+df_rangers_roster <span style="color:#ff79c6">=</span> pd<span style="color:#ff79c6">.</span>json_normalize(rangers_roster_content)<span style="color:#ff79c6">.</span>astype(<span style="color:#8be9fd;font-style:italic">str</span>)
+df_rangers_roster<span style="color:#ff79c6">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<h3 id="stat-types">Stat Types</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+stat_type_url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://statsapi.web.nhl.com/api/v1/statTypes&#34;</span>
+
+response_stat_type <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(stat_type_url)
+response_stat_type<span style="color:#ff79c6">.</span>status_code
+</code></pre></div><pre><code>200
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">response_stat_type<span style="color:#ff79c6">.</span>json()
+</code></pre></div><pre><code>[{'displayName': 'yearByYear', 'gameType': None},
+ {'displayName': 'yearByYearRank', 'gameType': None},
+ {'displayName': 'yearByYearPlayoffs', 'gameType': None},
+ {'displayName': 'yearByYearPlayoffsRank', 'gameType': None},
+ {'displayName': 'careerRegularSeason', 'gameType': None},
+ {'displayName': 'careerPlayoffs', 'gameType': None},
+ {'displayName': 'gameLog', 'gameType': None},
+ {'displayName': 'playoffGameLog', 'gameType': None},
+ {'displayName': 'vsTeam', 'gameType': None},
+ {'displayName': 'vsTeamPlayoffs', 'gameType': None},
+ {'displayName': 'vsDivision', 'gameType': None},
+ {'displayName': 'vsDivisionPlayoffs', 'gameType': None},
+ {'displayName': 'vsConference', 'gameType': None},
+ {'displayName': 'vsConferencePlayoffs', 'gameType': None},
+ {'displayName': 'byMonth', 'gameType': None},
+ {'displayName': 'byMonthPlayoffs', 'gameType': None},
+ {'displayName': 'byDayOfWeek', 'gameType': None},
+ {'displayName': 'byDayOfWeekPlayoffs', 'gameType': None},
+ {'displayName': 'homeAndAway', 'gameType': None},
+ {'displayName': 'homeAndAwayPlayoffs', 'gameType': None},
+ {'displayName': 'winLoss', 'gameType': None},
+ {'displayName': 'winLossPlayoffs', 'gameType': None},
+ {'displayName': 'onPaceRegularSeason', 'gameType': None},
+ {'displayName': 'regularSeasonStatRankings', 'gameType': None},
+ {'displayName': 'playoffStatRankings', 'gameType': None},
+ {'displayName': 'goalsByGameSituation', 'gameType': None},
+ {'displayName': 'goalsByGameSituationPlayoffs', 'gameType': None},
+ {'displayName': 'statsSingleSeason',
+  'gameType': {'id': 'R',
+   'description': 'Regular season',
+   'postseason': False}},
+ {'displayName': 'statsSingleSeasonPlayoffs',
+  'gameType': {'id': 'P', 'description': 'Playoffs', 'postseason': True}}]
+</code></pre>
+<h2 id="player-stats">Player Stats</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># create a url to get player stats</span>
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">create_player_stats_url</span>(<span style="color:#8be9fd;font-style:italic">id</span>, param <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>):
+    base_url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://statsapi.web.nhl.com/api/v1/people/&#34;</span>
+    <span style="color:#ff79c6">if</span> param <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#34;&#34;</span>:
+        url <span style="color:#ff79c6">=</span> base_url <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">id</span> <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;/&#34;</span>
+    <span style="color:#ff79c6">else</span>:
+        url <span style="color:#ff79c6">=</span> base_url <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">id</span> <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;/stats/?&#34;</span> <span style="color:#ff79c6">+</span> param
+    <span style="color:#ff79c6">return</span> url
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># get Artemi&#39;s player id</span>
+artemi_id <span style="color:#ff79c6">=</span> df_rangers_roster[df_rangers_roster[<span style="color:#f1fa8c">&#39;person.fullName&#39;</span>]<span style="color:#ff79c6">.</span>str<span style="color:#ff79c6">.</span>contains(<span style="color:#f1fa8c">&#34;Artemi&#34;</span>)][<span style="color:#f1fa8c">&#39;person.id&#39;</span>]<span style="color:#ff79c6">.</span>values[<span style="color:#bd93f9">0</span>]
+artemi_id
+</code></pre></div><pre><code>'8478550'
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># create a url for every player</span>
+df_rangers_roster[<span style="color:#f1fa8c">&#34;player_stats_link&#34;</span>] <span style="color:#ff79c6">=</span> create_player_stats_url(df_rangers_roster[<span style="color:#f1fa8c">&#34;person.id&#34;</span>], <span style="color:#f1fa8c">&#34;stats=statsSingleSeason&amp;season=20182019&#34;</span>)
+df_rangers_roster[<span style="color:#f1fa8c">&#34;player_stats_link&#34;</span>][<span style="color:#bd93f9">0</span>]
+</code></pre></div><pre><code>'https://statsapi.web.nhl.com/api/v1/people/8471686/stats/?stats=statsSingleSeason&amp;season=20182019'
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># get players stats</span>
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_player_stats</span>(url):
+    first_layer <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;stats&#34;</span> 
+    response <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url)
+    <span style="color:#ff79c6">try</span>:
+        content <span style="color:#ff79c6">=</span> json<span style="color:#ff79c6">.</span>loads(response<span style="color:#ff79c6">.</span>content)[first_layer][<span style="color:#bd93f9">0</span>][<span style="color:#f1fa8c">&#39;splits&#39;</span>][<span style="color:#bd93f9">0</span>]
+    <span style="color:#ff79c6">except</span>:
+        content <span style="color:#ff79c6">=</span> {}
+    <span style="color:#ff79c6">return</span> content
+    
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># test the function on one player</span>
+test_url <span style="color:#ff79c6">=</span> df_rangers_roster[<span style="color:#f1fa8c">&#34;player_stats_link&#34;</span>][<span style="color:#bd93f9">0</span>]
+test_return <span style="color:#ff79c6">=</span> get_player_stats(test_url)
+test_return
+<span style="color:#6272a4">#pd.json_normalize(test_return[&#39;people&#39;])</span>
+
+</code></pre></div><pre><code>{'season': '20182019',
+ 'stat': {'timeOnIce': '1534:12',
+  'assists': 10,
+  'goals': 3,
+  'pim': 32,
+  'shots': 84,
+  'games': 79,
+  'hits': 94,
+  'powerPlayGoals': 0,
+  'powerPlayPoints': 0,
+  'powerPlayTimeOnIce': '02:23',
+  'evenTimeOnIce': '1303:27',
+  'penaltyMinutes': '32',
+  'faceOffPct': 0.0,
+  'shotPct': 3.57,
+  'gameWinningGoals': 0,
+  'overTimeGoals': 0,
+  'shortHandedGoals': 0,
+  'shortHandedPoints': 0,
+  'shortHandedTimeOnIce': '228:22',
+  'blocked': 119,
+  'plusMinus': -9,
+  'points': 13,
+  'shifts': 2061,
+  'timeOnIcePerGame': '19:25',
+  'evenTimeOnIcePerGame': '16:29',
+  'shortHandedTimeOnIcePerGame': '02:53',
+  'powerPlayTimeOnIcePerGame': '00:01'}}
+</code></pre>
+<h3 id="store-the-results-in-a-data-frame">Store the results in a data frame</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4"># get stats for each player</span>
+df_rangers_roster[<span style="color:#f1fa8c">&#34;player_json&#34;</span>] <span style="color:#ff79c6">=</span>  df_rangers_roster[<span style="color:#f1fa8c">&#34;player_stats_link&#34;</span>]<span style="color:#ff79c6">.</span>apply(get_player_stats)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_rangers_roster[<span style="color:#f1fa8c">&#34;player_json&#34;</span>][<span style="color:#bd93f9">0</span>]
+</code></pre></div><pre><code>{'season': '20182019',
+ 'stat': {'timeOnIce': '1534:12',
+  'assists': 10,
+  'goals': 3,
+  'pim': 32,
+  'shots': 84,
+  'games': 79,
+  'hits': 94,
+  'powerPlayGoals': 0,
+  'powerPlayPoints': 0,
+  'powerPlayTimeOnIce': '02:23',
+  'evenTimeOnIce': '1303:27',
+  'penaltyMinutes': '32',
+  'faceOffPct': 0.0,
+  'shotPct': 3.57,
+  'gameWinningGoals': 0,
+  'overTimeGoals': 0,
+  'shortHandedGoals': 0,
+  'shortHandedPoints': 0,
+  'shortHandedTimeOnIce': '228:22',
+  'blocked': 119,
+  'plusMinus': -9,
+  'points': 13,
+  'shifts': 2061,
+  'timeOnIcePerGame': '19:25',
+  'evenTimeOnIcePerGame': '16:29',
+  'shortHandedTimeOnIcePerGame': '02:53',
+  'powerPlayTimeOnIcePerGame': '00:01'}}
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_rangers_stats_2018_2019 <span style="color:#ff79c6">=</span> pd<span style="color:#ff79c6">.</span>json_normalize(df_rangers_roster[<span style="color:#f1fa8c">&#34;player_json&#34;</span>])
+df_rangers_stats_2018_2019<span style="color:#ff79c6">.</span>head()
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#6272a4">#find the players from 2019-2020 roster that did have stats in 2018-2019</span>
+<span style="color:#6272a4">#they were all rookies in 2018-2019</span>
+df_rangers_roster[df_rangers_stats_2018_2019[<span style="color:#f1fa8c">&#39;season&#39;</span>]<span style="color:#ff79c6">.</span>isnull()<span style="color:#ff79c6">.</span>values]
+</code></pre></div><!-- raw HTML omitted -->
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_rangers_stats <span style="color:#ff79c6">=</span> pd<span style="color:#ff79c6">.</span>concat([df_rangers_roster, df_rangers_stats_2018_2019], axis <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>)
+df_rangers_stats[df_rangers_stats[<span style="color:#f1fa8c">&#34;person.id&#34;</span>] <span style="color:#ff79c6">==</span> artemi_id][<span style="color:#f1fa8c">&#34;stat.powerPlayGoals&#34;</span>]
+</code></pre></div><pre><code>17    6.0
+Name: stat.powerPlayGoals, dtype: float64
+</code></pre>
+<p>%md</p>
+<h3 id="compare-players">Compare Players</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">example <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/wayne</span><span style="color:#f1fa8c">%20g</span><span style="color:#f1fa8c">re/99999&#34;</span>
+</code></pre></div><p>the number reflects the results to return</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">url1 <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/wayne/2&#34;</span>
+</code></pre></div><pre><code>  File &quot;&lt;ipython-input-82-aa338d895432&gt;&quot;, line 1
+    https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/wayne/2
+          ^
+SyntaxError: invalid syntax
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">url2 <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://statsapi.web.nhl.com/api/v1/teams/?teamId=3&amp;expand=team.stats&amp;season=20132014&#34;</span>
+</code></pre></div><h3 id="team-stats">Team Stats</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">flatten_json</span>(y):
+    out <span style="color:#ff79c6">=</span> {}
+
+    <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">flatten</span>(x, name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;&#39;</span>):
+        <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">type</span>(x) <span style="color:#ff79c6">is</span> <span style="color:#8be9fd;font-style:italic">dict</span>:
+            <span style="color:#ff79c6">for</span> a <span style="color:#ff79c6">in</span> x:
+                flatten(x[a], name <span style="color:#ff79c6">+</span> a <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;_&#39;</span>)
+        <span style="color:#ff79c6">elif</span> <span style="color:#8be9fd;font-style:italic">type</span>(x) <span style="color:#ff79c6">is</span> <span style="color:#8be9fd;font-style:italic">list</span>:
+            i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+            <span style="color:#ff79c6">for</span> a <span style="color:#ff79c6">in</span> x:
+                flatten(a, name <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">str</span>(i) <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#39;_&#39;</span>)
+                i <span style="color:#ff79c6">+=</span> <span style="color:#bd93f9">1</span>
+        <span style="color:#ff79c6">else</span>:
+            out[name[:<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>]] <span style="color:#ff79c6">=</span> x
+
+    flatten(y)
+    <span style="color:#ff79c6">return</span> out
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">import</span> time
+
+<span style="color:#ff79c6">def</span> <span style="color:#50fa7b">get_team_stats</span>(start, stop):
+    base_url <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;https://statsapi.web.nhl.com/api/v1/teams/?teamId=3&amp;expand=team.stats&amp;season=&#34;</span>
+    start <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">int</span>(start)
+    stop <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">int</span>(stop)
+    
+    stats <span style="color:#ff79c6">=</span> []
+    
+    <span style="color:#ff79c6">while</span> start <span style="color:#ff79c6">!=</span> stop:
+        url <span style="color:#ff79c6">=</span> base_url <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">str</span>(start) <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">str</span>(start <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>)
+        response <span style="color:#ff79c6">=</span> requests<span style="color:#ff79c6">.</span>get(url)
+        content <span style="color:#ff79c6">=</span> response<span style="color:#ff79c6">.</span>json()[<span style="color:#f1fa8c">&#39;teams&#39;</span>]
+        <span style="color:#ff79c6">try</span>:
+            team_stats <span style="color:#ff79c6">=</span> [team_dict[<span style="color:#f1fa8c">&#39;teamStats&#39;</span>][<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">for</span> team_dict <span style="color:#ff79c6">in</span> content][<span style="color:#bd93f9">0</span>][<span style="color:#f1fa8c">&#39;splits&#39;</span>][<span style="color:#bd93f9">0</span>]
+            <span style="color:#ff79c6">if</span> <span style="color:#8be9fd;font-style:italic">type</span>(team_stats) <span style="color:#ff79c6">is</span> <span style="color:#8be9fd;font-style:italic">dict</span>:
+                team_stats<span style="color:#ff79c6">.</span>update({<span style="color:#f1fa8c">&#34;season_start&#34;</span>:start, <span style="color:#f1fa8c">&#34;season_stop&#34;</span> : start <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>})
+                stats<span style="color:#ff79c6">.</span>append(team_stats)
+            <span style="color:#ff79c6">else</span>:
+                <span style="color:#ff79c6">for</span> item <span style="color:#ff79c6">in</span> team_stats:
+                    item<span style="color:#ff79c6">.</span>update({<span style="color:#f1fa8c">&#34;season_start&#34;</span>:start, <span style="color:#f1fa8c">&#34;season_stop&#34;</span> : start <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>})
+        <span style="color:#ff79c6">except</span>:
+            <span style="color:#ff79c6">pass</span>
+        time<span style="color:#ff79c6">.</span>sleep(<span style="color:#bd93f9">1</span>)
+        start <span style="color:#ff79c6">+=</span> <span style="color:#bd93f9">1</span>
+        <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#8be9fd;font-style:italic">str</span>(start) <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34; season complete&#34;</span>)
+    
+    <span style="color:#6272a4">#stats = [item for sublist in stats for item in sublist ]</span>
+    df_stats <span style="color:#ff79c6">=</span> pd<span style="color:#ff79c6">.</span>json_normalize(stats, sep <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;_&#34;</span>)
+    <span style="color:#ff79c6">return</span> df_stats
+
+<span style="color:#6272a4">#rangers_stats = get_team_stats(2012,2014)</span>
+        
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">rangers_stats
+</code></pre></div><pre><code>---------------------------------------------------------------------------
+
+NameError                                 Traceback (most recent call last)
+
+&lt;ipython-input-87-d4f0a941d66d&gt; in &lt;module&gt;
+----&gt; 1 rangers_stats
+
+
+NameError: name 'rangers_stats' is not defined
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_rangers <span style="color:#ff79c6">=</span> get_team_stats(<span style="color:#bd93f9">1926</span>,<span style="color:#bd93f9">2020</span>)
+
+</code></pre></div><pre><code>1927 season complete
+1928 season complete
+1929 season complete
+1930 season complete
+1931 season complete
+1932 season complete
+1933 season complete
+1934 season complete
+1935 season complete
+1936 season complete
+1937 season complete
+1938 season complete
+1939 season complete
+1940 season complete
+1941 season complete
+1942 season complete
+1943 season complete
+1944 season complete
+1945 season complete
+1946 season complete
+1947 season complete
+1948 season complete
+1949 season complete
+1950 season complete
+1951 season complete
+1952 season complete
+1953 season complete
+1954 season complete
+1955 season complete
+1956 season complete
+1957 season complete
+1958 season complete
+1959 season complete
+1960 season complete
+1961 season complete
+1962 season complete
+1963 season complete
+1964 season complete
+1965 season complete
+1966 season complete
+1967 season complete
+1968 season complete
+1969 season complete
+1970 season complete
+1971 season complete
+1972 season complete
+1973 season complete
+1974 season complete
+1975 season complete
+1976 season complete
+1977 season complete
+1978 season complete
+1979 season complete
+1980 season complete
+1981 season complete
+1982 season complete
+1983 season complete
+1984 season complete
+1985 season complete
+1986 season complete
+1987 season complete
+1988 season complete
+1989 season complete
+1990 season complete
+1991 season complete
+1992 season complete
+1993 season complete
+1994 season complete
+1995 season complete
+1996 season complete
+1997 season complete
+1998 season complete
+1999 season complete
+2000 season complete
+2001 season complete
+2002 season complete
+2003 season complete
+2004 season complete
+2005 season complete
+2006 season complete
+2007 season complete
+2008 season complete
+2009 season complete
+2010 season complete
+2011 season complete
+2012 season complete
+2013 season complete
+2014 season complete
+2015 season complete
+2016 season complete
+2017 season complete
+2018 season complete
+2019 season complete
+2020 season complete
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">import</span> re
+
+re<span style="color:#ff79c6">.</span>sub(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\\</span><span style="color:#f1fa8c">.&#34;</span>, <span style="color:#f1fa8c">&#34;_&#34;</span>, <span style="color:#f1fa8c">&#34;test this.out&#34;</span>)
+
+df_rangers<span style="color:#ff79c6">.</span>rename(columns <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">lambda</span> x: re<span style="color:#ff79c6">.</span>sub(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\\</span><span style="color:#f1fa8c">.&#34;</span>, <span style="color:#f1fa8c">&#34;_&#34;</span>, x), inplace <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">True</span>)
+df_rangers<span style="color:#ff79c6">.</span>columns
+</code></pre></div><pre><code>Index(['season_start', 'season_stop', 'stat_gamesPlayed', 'stat_wins',
+       'stat_losses', 'stat_ot', 'stat_pts', 'stat_ptPctg',
+       'stat_goalsPerGame', 'stat_goalsAgainstPerGame', 'stat_evGGARatio',
+       'stat_powerPlayPercentage', 'stat_powerPlayGoals',
+       'stat_powerPlayGoalsAgainst', 'stat_powerPlayOpportunities',
+       'stat_penaltyKillPercentage', 'stat_shotsPerGame', 'stat_shotsAllowed',
+       'stat_winScoreFirst', 'stat_winOppScoreFirst', 'stat_winLeadFirstPer',
+       'stat_winLeadSecondPer', 'stat_winOutshootOpp', 'stat_winOutshotByOpp',
+       'stat_faceOffsTaken', 'stat_faceOffsWon', 'stat_faceOffsLost',
+       'stat_faceOffWinPercentage', 'stat_shootingPctg', 'stat_savePctg',
+       'team_id', 'team_name', 'team_link'],
+      dtype='object')
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">from</span> bokeh.plotting <span style="color:#ff79c6">import</span> figure, output_file, show
+<span style="color:#ff79c6">from</span> bokeh.io <span style="color:#ff79c6">import</span> output_notebook, show
+<span style="color:#ff79c6">from</span> bokeh.models <span style="color:#ff79c6">import</span> ColumnDataSource
+<span style="color:#ff79c6">from</span> bokeh.models.tools <span style="color:#ff79c6">import</span> HoverTool
+<span style="color:#ff79c6">from</span> bokeh.models <span style="color:#ff79c6">import</span> SingleIntervalTicker, LinearAxis, Range1d, LabelSet, Label, \
+Arrow, NormalHead, OpenHead, VeeHead
+output_notebook()
+</code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">p <span style="color:#ff79c6">=</span> figure(plot_width<span style="color:#ff79c6">=</span><span style="color:#bd93f9">400</span>, plot_height<span style="color:#ff79c6">=</span><span style="color:#bd93f9">400</span>, 
+           x_axis_type<span style="color:#ff79c6">=</span><span style="color:#ff79c6">None</span>, title <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Rangers Points by Season&#34;</span>)
+
+source <span style="color:#ff79c6">=</span> ColumnDataSource(df_rangers)
+
+p<span style="color:#ff79c6">.</span>line(x <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;season_stop&#34;</span>, y <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;stat_pts&#34;</span>, source <span style="color:#ff79c6">=</span> source, line_width <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span>, 
+       legend_label <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Points&#34;</span>)
+p<span style="color:#ff79c6">.</span>line(x <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;season_stop&#34;</span>, y <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;stat_gamesPlayed&#34;</span>, source <span style="color:#ff79c6">=</span> source, line_color <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;grey&#34;</span>,
+      line_width <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">4</span>, line_dash <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;dashed&#34;</span>,
+      legend_label <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Games Played&#34;</span>)
+p<span style="color:#ff79c6">.</span>yaxis<span style="color:#ff79c6">.</span>minor_tick_line_color <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">None</span>
+
+<span style="color:#6272a4"># add annotations</span>
+labels <span style="color:#ff79c6">=</span> Label(x <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1995</span>, y <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">20</span>, text <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Lockout&#34;</span>, level <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;overlay&#34;</span>)
+p<span style="color:#ff79c6">.</span>add_layout(Arrow(end<span style="color:#ff79c6">=</span>NormalHead(line_color<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;black&#34;</span>, line_width<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>),
+                   x_start<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2005</span>, y_start<span style="color:#ff79c6">=</span><span style="color:#bd93f9">25</span>, x_end<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1995</span>, y_end<span style="color:#ff79c6">=</span><span style="color:#bd93f9">45</span>))
+p<span style="color:#ff79c6">.</span>add_layout(Arrow(end<span style="color:#ff79c6">=</span>NormalHead(line_color<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;black&#34;</span>, line_width<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>),
+                   x_start<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2005</span>, y_start<span style="color:#ff79c6">=</span><span style="color:#bd93f9">25</span>, x_end<span style="color:#ff79c6">=</span><span style="color:#bd93f9">2013</span>, y_end<span style="color:#ff79c6">=</span><span style="color:#bd93f9">45</span>))
+p<span style="color:#ff79c6">.</span>add_layout(labels)
+
+hover <span style="color:#ff79c6">=</span> HoverTool()
+hover<span style="color:#ff79c6">.</span>tooltips<span style="color:#ff79c6">=</span>[
+    (<span style="color:#f1fa8c">&#34;Year&#34;</span>,<span style="color:#f1fa8c">&#34;@season_stop&#34;</span>),
+    (<span style="color:#f1fa8c">&#39;Points&#39;</span>, <span style="color:#f1fa8c">&#34;@stat_pts&#34;</span>),
+    (<span style="color:#f1fa8c">&#39;Games Played&#39;</span>, <span style="color:#f1fa8c">&#39;@stat_gamesPlayed&#39;</span>)
+
+]
+
+ticker <span style="color:#ff79c6">=</span> SingleIntervalTicker(interval<span style="color:#ff79c6">=</span><span style="color:#bd93f9">10</span>)
+xaxis <span style="color:#ff79c6">=</span> LinearAxis(ticker<span style="color:#ff79c6">=</span>ticker)
+p<span style="color:#ff79c6">.</span>add_layout(xaxis, <span style="color:#f1fa8c">&#39;below&#39;</span>)
+
+p<span style="color:#ff79c6">.</span>add_tools(hover)
+
+
+p<span style="color:#ff79c6">.</span>legend<span style="color:#ff79c6">.</span>location <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;top_left&#34;</span>
+p<span style="color:#ff79c6">.</span>legend<span style="color:#ff79c6">.</span>title_text_font_style <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;bold&#34;</span>
+p<span style="color:#ff79c6">.</span>legend<span style="color:#ff79c6">.</span>title_text_font_size <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;20px&#34;</span>
+p<span style="color:#ff79c6">.</span>legend<span style="color:#ff79c6">.</span>background_fill_alpha <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+p<span style="color:#ff79c6">.</span>legend<span style="color:#ff79c6">.</span>border_line_alpha <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+p<span style="color:#ff79c6">.</span>legend<span style="color:#ff79c6">.</span>margin <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>
+
+show(p)
+</code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">p <span style="color:#ff79c6">=</span> figure(plot_width<span style="color:#ff79c6">=</span><span style="color:#bd93f9">400</span>, plot_height<span style="color:#ff79c6">=</span><span style="color:#bd93f9">400</span>, 
+           x_axis_type<span style="color:#ff79c6">=</span><span style="color:#ff79c6">None</span>, title <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;Rangers Points by Season&#34;</span>)
+
+
+p<span style="color:#ff79c6">.</span>line(x <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;season_stop&#34;</span>, y <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;stat_wins&#34;</span>, source <span style="color:#ff79c6">=</span> source, line_color <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;firebrick&#34;</span>,
+      line_width <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">4</span>, line_dash <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;dashed&#34;</span>)
+p<span style="color:#ff79c6">.</span>yaxis<span style="color:#ff79c6">.</span>minor_tick_line_color <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">None</span>
+
+<span style="color:#6272a4"># Setting the second y axis range name and range</span>
+p<span style="color:#ff79c6">.</span>extra_y_ranges <span style="color:#ff79c6">=</span> {<span style="color:#f1fa8c">&#34;percent&#34;</span>: Range1d(start<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>, end<span style="color:#ff79c6">=</span><span style="color:#bd93f9">1</span>)}
+
+<span style="color:#6272a4"># Adding the second axis to the plot.  </span>
+p<span style="color:#ff79c6">.</span>add_layout(LinearAxis(y_range_name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;percent&#34;</span>), <span style="color:#f1fa8c">&#39;right&#39;</span>)
+
+p<span style="color:#ff79c6">.</span>line(x <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;season_stop&#34;</span>, y <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;stat_winScoreFirst&#34;</span>, source <span style="color:#ff79c6">=</span> source, 
+       line_width <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span>, line_color <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;green&#34;</span>,
+      y_range_name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;percent&#34;</span>)
+
+hover <span style="color:#ff79c6">=</span> HoverTool()
+hover<span style="color:#ff79c6">.</span>tooltips<span style="color:#ff79c6">=</span>[
+    (<span style="color:#f1fa8c">&#34;Year&#34;</span>,<span style="color:#f1fa8c">&#34;@season_stop&#34;</span>),
+    (<span style="color:#f1fa8c">&#39;% Win Score First&#39;</span>, <span style="color:#f1fa8c">&#34;@stat_winScoreFirst&#34;</span>),
+    (<span style="color:#f1fa8c">&#39;Wins&#39;</span>, <span style="color:#f1fa8c">&#39;@stat_wins&#39;</span>)
+
+]
+
+ticker <span style="color:#ff79c6">=</span> SingleIntervalTicker(interval<span style="color:#ff79c6">=</span><span style="color:#bd93f9">10</span>)
+xaxis <span style="color:#ff79c6">=</span> LinearAxis(ticker<span style="color:#ff79c6">=</span>ticker)
+p<span style="color:#ff79c6">.</span>add_layout(xaxis, <span style="color:#f1fa8c">&#39;below&#39;</span>)
+
+p<span style="color:#ff79c6">.</span>add_tools(hover)
+
+show(p)
+</code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_rangers<span style="color:#ff79c6">.</span>stat_winLeadFirstPer
+</code></pre></div><pre><code>0     0.938
+1     0.875
+2     0.833
+3     0.917
+4     0.923
+      ...  
+88    0.806
+89    0.741
+90    0.625
+91    0.526
+92    0.741
+Name: stat_winLeadFirstPer, Length: 93, dtype: float64
+</code></pre>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-09-21-statcast-pitching-data/" data-toggle="tooltip" data-placement="top" title="Statcast Pitching Data">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-11-22-great8/" data-toggle="tooltip" data-placement="top" title="Ovi will Break the Great One&#39;s Goal Record">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/api" title="api">
+                            api
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mlb" title="mlb">
+                            mlb
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/nhl" title="nhl">
+                            nhl
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Nick Paul&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:nickryanpaul@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/nickpaul7">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/nick-paul-8b466818/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Nick Paul&#39;s Blog 2021
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

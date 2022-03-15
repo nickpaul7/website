@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Nick Paul&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="NHL API - Collect Career Stats" />
+    <meta property="og:title" content="NHL API - Collect Career Stats" />
+    <meta property="twitter:title" content="NHL API - Collect Career Stats" />
+    
+
+    
+    <meta name="description" content="This post demonstrates how to collect career stats for an NHL player">
+    <meta property="og:description" content="This post demonstrates how to collect career stats for an NHL player" />
+    <meta property="twitter:description" content="This post demonstrates how to collect career stats for an NHL player" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="Nick Paul, Analyltics">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>NHL API - Collect Career Stats-Nick Paul Blog</title>
+
+    <link rel="canonical" href="/post/2021-12-03-nhl-api-single-season-stats/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nick Paul&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/analytics">analytics</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/data-collection">data-collection</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/data-visualization">data-visualization</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/archive/">ARCHIVE</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/home-bg-jeep.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        <a class="tag" href="/tags/nhl" title="NHL">
+                            NHL
+                        </a>
+                        
+                        <a class="tag" href="/tags/api" title="API">
+                            API
+                        </a>
+                        
+                    </div>
+                    <h1>NHL API - Collect Career Stats</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                 Nick Paul
+                             
+                            on 
+                            Friday, December 3, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                
+                
+                
+
+
+<ol style="list-style-type: decimal">
+<li><a href="#import-libs">Import Libraries</a></li>
+<li><a href="#find-player-id">Find Player ID</a></li>
+<li><a href="#collect-data">Collect Data</a></li>
+</ol>
+<p>The NHL has an unpublished API that makes grabbing stats pretty painless. In this post we will walk through how to grab year-by-year stats for a particular player using python.</p>
+<div id="import-libraries" class="section level2">
+<h2>Import Libraries</h2>
+<p>To get started, we will import the following libraries:</p>
+<ul>
+<li><code>requests</code> - Conduct the API call</li>
+<li><code>json</code> - Convert the returned data to a python list</li>
+<li><code>pandas</code> - Conduct data manipulation</li>
+</ul>
+<pre class="python"><code>import requests
+import json
+import pandas as pd</code></pre>
+</div>
+<div id="find-player-id" class="section level2">
+<h2>Find Player ID</h2>
+<p>To collect player data from the NHL API, we first need their player ID, which can be found using the NHL’s suggest end point. Below is a simple example to get <code>Connor McDavid's</code> player ID.</p>
+<pre class="python"><code>base_url = &#39;https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/&#39;
+
+first_name = &#39;connor&#39;
+last_name = &#39;mcdavid&#39;
+num_to_return = &#39;1&#39;
+
+full_url = base_url + first_name + &#39;%20&#39; + last_name + &#39;/&#39; + num_to_return
+response = requests.get(full_url)
+suggestions = json.loads(response.content)[&#39;suggestions&#39;][0]
+print(suggestions)</code></pre>
+<pre><code>## 8478402|McDavid|Connor|1|0|6&#39; 1&quot;|193|Richmond Hill|ON|CAN|1997-01-13|EDM|C|97|connor-mcdavid-8478402</code></pre>
+<pre class="python"><code>player_info = str.split(suggestions, &quot;|&quot;)
+print(player_info)</code></pre>
+<pre><code>## [&#39;8478402&#39;, &#39;McDavid&#39;, &#39;Connor&#39;, &#39;1&#39;, &#39;0&#39;, &#39;6\&#39; 1&quot;&#39;, &#39;193&#39;, &#39;Richmond Hill&#39;, &#39;ON&#39;, &#39;CAN&#39;, &#39;1997-01-13&#39;, &#39;EDM&#39;, &#39;C&#39;, &#39;97&#39;, &#39;connor-mcdavid-8478402&#39;]</code></pre>
+<pre class="python"><code>player_id = player_info[0]
+player_id</code></pre>
+<pre><code>## &#39;8478402&#39;</code></pre>
+<p>This endpoint returns a string that we can split and pull out information such as name and birthday.</p>
+</div>
+<div id="career-data" class="section level2">
+<h2>Career Data</h2>
+<p>The next step is to hit the stats api using the player ID we just acquired.</p>
+<pre class="python"><code>url = &#39;https://statsapi.web.nhl.com/api/v1/people/&#39; + player_id + &#39;/stats/?stats=yearByYear&#39;
+response = requests.get(url)
+content = json.loads(response.content)[&#39;stats&#39;]
+splits = content[0][&#39;splits&#39;]
+
+df_splits = (pd.json_normalize(splits, sep = &quot;_&quot; )
+             .query(&#39;league_name == &quot;National Hockey League&quot;&#39;)
+            )
+df_splits</code></pre>
+<pre><code>##       season  sequenceNumber  ...  stat_blocked  stat_shifts
+## 8   20152016               1  ...          10.0       1030.0
+## 11  20162017               1  ...          29.0       1998.0
+## 13  20172018               1  ...          46.0       1940.0
+## 15  20182019               1  ...          30.0       1998.0
+## 16  20192020               1  ...          18.0       1353.0
+## 17  20202021               1  ...          24.0       1182.0
+## 18  20212022               1  ...          13.0        860.0
+## 
+## [7 rows x 31 columns]</code></pre>
+<p>We now have Connor McDavid’s career stats! While McDavid’s stats returned one row per year, be aware that a player that was traded during a season will have multiple rows for a particular year.</p>
+</div>
+<div id="create-a-function" class="section level2">
+<h2>Create a Function</h2>
+<p>Since we will likely reuse this code, we should write a function that handles the two previous steps: get a player ID and get career stats.</p>
+<pre class="python"><code>from datetime import datetime
+import numpy as np
+
+def get_career_stats(first_name, last_name):
+
+    base_url = &#39;https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/&#39;
+
+    num_to_return = &#39;1&#39;
+
+    full_url = base_url + first_name + &#39;%20&#39; + last_name + &#39;/&#39; + num_to_return
+
+    response = requests.get(full_url)
+    suggestion = json.loads(response.content)[&#39;suggestions&#39;][0]
+    player_info = str.split(suggestion, &quot;|&quot;)
+    player_id = player_info[0]
+    
+    url = &#39;https://statsapi.web.nhl.com/api/v1/people/&#39; + player_id + &#39;/stats/?stats=yearByYear&#39;
+    response = requests.get(url)
+    content = json.loads(response.content)[&#39;stats&#39;]
+    splits = content[0][&#39;splits&#39;]
+
+    df_splits = (pd.json_normalize(splits, sep = &quot;_&quot; )
+             .query(&#39;league_name == &quot;National Hockey League&quot;&#39;)
+            )
+    
+    df_splits[&#39;goals_per_game&#39;]=  df_splits[&#39;stat_goals&#39;]/df_splits[&#39;stat_games&#39;]
+    df_splits[&#39;player_id&#39;] = player_id
+    df_splits[&#39;first_name&#39;] = player_info[2]
+    df_splits[&#39;last_name&#39;] = player_info[1]
+    df_splits[&#39;bday&#39;] = pd.to_datetime(player_info[10])
+    df_splits[&#39;season_end&#39;] = [x[4:8] for x in df_splits[&#39;season&#39;]]
+    df_splits[&#39;season_start_yr&#39;] = [x[0:4] for x in df_splits[&#39;season&#39;]]
+    df_splits[&#39;season_start_dt&#39;] =  [datetime.strptime(x + &#39;0930&#39;, &quot;%Y%m%d&quot;) for x in df_splits[&#39;season_start_yr&#39;]] 
+    df_splits[&#39;age&#39;] = (np.floor((df_splits[&#39;season_start_dt&#39;] - df_splits[&#39;bday&#39;])/ np.timedelta64(1,&#39;Y&#39;) ))
+    df_splits[&#39;age&#39;] = df_splits[&#39;age&#39;].astype(int)
+    
+    return df_splits
+get_career_stats(&#39;connor&#39;, &#39;mcdavid&#39;)</code></pre>
+<pre><code>##       season  sequenceNumber  stat_assists  ...  season_start_yr  season_start_dt  age
+## 8   20152016               1            32  ...             2015       2015-09-30   18
+## 11  20162017               1            70  ...             2016       2016-09-30   19
+## 13  20172018               1            67  ...             2017       2017-09-30   20
+## 15  20182019               1            75  ...             2018       2018-09-30   21
+## 16  20192020               1            63  ...             2019       2019-09-30   22
+## 17  20202021               1            72  ...             2020       2020-09-30   23
+## 18  20212022               1            37  ...             2021       2021-09-30   24
+## 
+## [7 rows x 40 columns]</code></pre>
+<p>Now we can just enter a players name and pull their stats, which is very useful if we want to pull data for multiple players and compare their numbers.</p>
+<pre class="python"><code>df_ovi = get_career_stats(&#39;connor&#39;, &#39;mcdavid&#39;)
+df_mcdavid = get_career_stats(&#39;alex&#39;, &#39;ovech&#39;)
+
+df_compare = pd.concat([df_ovi, df_mcdavid])
+
+df_compare.groupby([&#39;first_name&#39;, &#39;last_name&#39;])[&#39;stat_goals&#39;].sum()</code></pre>
+<pre><code>## first_name  last_name
+## Alex        Ovechkin     759
+## Connor      McDavid      217
+## Name: stat_goals, dtype: int64</code></pre>
+</div>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-11-22-great8/" data-toggle="tooltip" data-placement="top" title="Ovi will Break the Great One&#39;s Goal Record">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2021-12-06-nhl-mcdavid/" data-toggle="tooltip" data-placement="top" title="Ovechkin May Not Hold the NHL All-Time Goal Record for Long">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/bokeh" title="bokeh">
+                            bokeh
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ggplot2" title="ggplot2">
+                            ggplot2
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mlb" title="mlb">
+                            mlb
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/nhl" title="nhl">
+                            nhl
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/r" title="r">
+                            r
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Nick Paul&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:nickryanpaul@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/nickpaul7">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/nick-paul-8b466818/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Nick Paul&#39;s Blog 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

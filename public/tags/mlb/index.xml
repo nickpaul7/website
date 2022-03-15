@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MLB on Nick Paul&#39;s Blog</title>
+    <link>http://www.nickpaul.info/tags/mlb/</link>
+    <description>Recent content in MLB on Nick Paul&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 21 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/tags/mlb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Intro to Statcast Pitching Data</title>
+      <link>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</link>
+      <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</guid>
+      <description>Pitching Data Pitch Type Pitch Location Result  Statcast Pitching Data This post explores some of the statcast pitching dimensions and highlights some interesting ways to visualize the data.
+Pitch Type To get started, we will import a data set we collected in a previous post, which contains Aroldis Chapman’s pitch data from 2015-2021.
+df_chapman = readr::read_csv(&amp;quot;./chapman_20150301-20211001.csv&amp;quot;) Let’s start by identifying Chapman’s favortie ptich.
+from bokeh.io import output_file, show, save from bokeh.</description>
+    </item>
+    
+    <item>
+      <title>Collect Statcast Pitching Data</title>
+      <link>http://www.nickpaul.info/post/2021-09-20-statcast/</link>
+      <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.nickpaul.info/post/2021-09-20-statcast/</guid>
+      <description>Intro Advice Collect Pitcher Data Next Steps  Intro to Statcast Data This post will serve as a short introduction to collecting statcast data.
+ Focus on the Task When I first started collecting sports data, I built a number of homemade packages in R and python, which was a great learning experience - my package development, web scraping and API interaction skills all leveled up. There was, however, alot more time dedicated to collecting the data than actually analyzing the data.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,396 @@
+---
+title: Ovechkin May Not Hold the NHL All-Time Goal Record for Long
+author: ' Nick Paul'
+date: '2021-12-06'
+slug: []
+categories: ['Analytics']
+tags: ['NHL']
+subtitle: ''
+description: 'In this post we will examine if any active players can catch up to Ovechkin.'
+image: ''
+---
+
+1. [Active Top Goal Scorers](active-top-goal-scorers)
+1. [Comparing to Ovechkin's Pace](comparing-to-ovechkin's-pace)
+1. [Rising to a New Level](rising-to-a-new-level)
+1. [Staying Healthy is Key](Staying Healthy is Key)
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	include = FALSE
+)
+```
+
+```{r}
+library(tidyverse)
+df_career_stats = read_csv("nhl_20212022_career_stats.csv")
+
+df_games = tibble(year = c(2005,2013,2020,2021),
+                  games = c(0,48,70,56))
+
+```
+
+```{r}
+df_career_stats %>% 
+    filter(season_end_yr > 2019, stat_goals > 20) %>% 
+    group_by(player_id, first_name, last_name, season_end_yr) %>% 
+    summarize(career_goals = sum(stat_goals),
+              career_games = sum(stat_games),
+              goals_per_game = career_goals/career_games) %>% 
+    arrange(desc(goals_per_game))
+```
+
+
+```{r}
+df_gpg = df_career_stats %>% 
+    group_by(player_id, first_name, last_name) %>% 
+    summarize(career_goals = sum(stat_goals),
+              career_games = sum(stat_games),
+              goals_per_game = career_goals/career_games) %>% 
+    arrange(desc(goals_per_game)) %>% 
+    filter(goals_per_game > .455)
+
+df_gpg_all = df_career_stats %>% 
+    group_by(player_id, first_name, last_name) %>% 
+    summarize(career_goals = sum(stat_goals),
+              career_games = sum(stat_games),
+              goals_per_game = career_goals/career_games) %>% 
+    arrange(desc(goals_per_game))
+
+df_top_six = df_career_stats %>% 
+    filter(player_id %in% df_gpg$player_id)
+```
+
+As we discussed in a previous [post](http://www.nickpaul.info/post/2021-11-22-great8/), Alex Ovechkin is on pace to break the NHL goal record, but he may not hold the record for long - there are two players who have similar numbers through their early 20s: Connor McDavid and Austin Matthews. 
+
+## Active Top Goal Scorers
+
+To determine which players have a chance at catching Ovechkin, let's look at the active goals-per-game leaders.
+
+```{r, include = TRUE, echo = FALSE}
+df_trend = tibble(x = c(0,1223), y = c(0,750))
+library(ggrepel)
+
+values = c('Ovechkin' = '#C8102E', 
+           'McDavid' = '#FF4C00',
+           "Matthews" = "#00205B", 
+           "Crosby" = "#FCB514",
+           "Kaprizov" = "#154734", 
+           "Stamkos" = "#002868")
+#need to add a label to the trend line
+df_gpg %>% 
+    ggplot(aes(x = career_games, y = career_goals)) +
+    geom_point(data = df_gpg_all, color = "grey") +
+    geom_line(data = df_trend, aes(x = x, y = y), linetype = 3) +
+    geom_text_repel(aes(label = last_name)) +
+    geom_point(aes(color = last_name)) +
+    scale_color_manual(values = values) +
+    ggthemes::theme_hc() +
+    theme(legend.position = "none",
+           axis.ticks = element_line(color ="light grey")) +
+    labs(y = "Career Goals",
+         x = "Career Games",
+         title = "Active Goals per Game Leaders") 
+    
+```
+
+Of the top six players, only two have a legitimate chance at catching Ovechkin: McDavid and Matthews. Crosby, 34, and Stamkos, 31, are too old to make up their differences and, while Kaprizov has started his career at impressive pace, he is already 24, which likely puts him out of the race.  
+
+That leaves us with McDavid and Matthews.
+
+<!-- Matthews is much closer than McDavid, but, as we will see below, McDavid's career total at age 23 is only 24 behind Ovechkin because he started his career at 18 and Ovechkin started at 20.   -->
+
+```{r}
+df_career_stats %>% 
+    filter(last_name %in% c("Ovechkin",
+                            "McDavid",
+                            "Matthews")) %>% 
+    group_by(player_id) %>% 
+    mutate(cumsum = cumsum(stat_goals)) %>% 
+    select(last_name, cumsum, age) %>% 
+    filter(age == 23)
+```
+
+```{r}
+df_top_six %>% 
+    group_by(player_id) %>% 
+    filter(age == max(age)) %>% 
+    select(last_name, age)
+```
+
+
+
+
+## Comparing to Ovechkin's Pace
+
+While McDavid appears a little behind the pace in the chart above, if we look at total goals by age (their age at the start of a season), McDavid and Matthews are very close to Ovechkin's pace. This is partly because Matthews and McDavid started their careers earlier than Ovechkin: McDavid at 18, Matthews at 19, and Ovechkin at 20. This may make this perspective seem misleading, but the point here is McDavid and Matthews are not behind from an age perspective, which is probably the best predictor of years remaining to play.  So, since they are all close at age 23 (within 25 goals), if McDavid and Matthews were to achieve a Ovechkin goals-per-game rate from this point going forward, they would have a chance at catching him (25 goals spread over 15 seasons is not much to make up).    
+
+```{r, include = TRUE, echo = FALSE}
+
+
+df_ovi = df_career_stats %>% 
+    filter(last_name == 'Ovechkin') %>% 
+     mutate(cumsum = cumsum(stat_goals)) 
+
+# add a line for ovi compare
+df_top_six %>% 
+    group_by(player_id) %>% 
+    mutate(cumsum = cumsum(stat_goals)) %>% 
+    filter(season_end_yr != '2022',
+               !last_name %in% c("Ovechkin","Kaprizov")) %>% 
+    # filter(player_id %in% c('8479318', '8478402')) %>% 
+    ggplot(aes(x = age, y = cumsum, color = last_name)) +
+    # theme(legend.position = "none",
+    #       panel.border = element_rect(color ="grey", fill = NULL,
+    #                                   inherit.blank = TRUE),
+    #       panel.grid.major = element_blank(),
+    #       panel.grid.minor = element_blank(),
+    #       panel.background = element_blank(),
+    #       ) +
+    theme(legend.position = "none",
+        axis.line = element_line(colour = "grey"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    # panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.ticks = element_line(color ="grey")
+    ) +
+    geom_point(size = 2) +
+    geom_line(size = .5) +
+    # geom_line(data = df %>% filter(last_name == 'Ovechkin'), size = .5, alpha = .3) +
+    # geom_point(data = df %>% filter(last_name == 'Ovechkin'), size = 2, alpha = .3) +
+    labs(title= "Career Goals by Age",
+         y  = "Goals",
+         x = "Age",
+         color = "") +
+    # theme_minmal() +
+    # ggthemes::theme_hc(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    scale_y_continuous(limits = c(0,800)) +
+    # scale_x_continuous(limits = c(18,23), breaks= c(19,21,23)) +
+    geom_line(data = df_ovi %>% select(age,cumsum), aes(x=age,y=cumsum), color ="grey") +
+    scale_color_manual(values = values) +
+    facet_wrap(~last_name)
+```
+
+
+
+```{r}
+# df_mcdavid = get_career_stats('connor', 'mcdavid')
+# df_mcdavid[df_mcdavid$season_end_yr == 2022,'stat_goals'] = round(df_mcdavid[df_mcdavid$season_end_yr == 2022,'goals_per_game'] * 79)
+# df_mcdavid
+# 
+# df_ovi = get_career_stats('alex', 'ovech')
+# 
+# df = bind_rows(df_mcdavid, df_ovi) %>% 
+#     group_by(last_name) %>% 
+#     mutate(cumsum = cumsum(stat_goals))
+# df_ovi
+```
+
+
+
+```{r}
+df_top_six %>%
+    group_by(last_name) %>% 
+    mutate(cumsum = cumsum(stat_goals)) %>%  filter(age == 23) %>% select(last_name, age, cumsum)
+```
+
+
+
+
+
+
+
+## Rising to a New Level
+
+Knowing that McDavid and Matthews had a few extra years to pad their goals by age 23, they both would need to increase their goals-per-game to justify an argument for catching Ovechkin.  Looking at the chart below, we see exactly this.
+
+
+
+```{r, echo = FALSE, include = TRUE}
+alex_gpg = df_top_six %>% filter(last_name == "Ovechkin") %>% summarize(gpg = sum(stat_goals)/sum(stat_games)) %>% pull(gpg)
+
+df_arrow = tibble(x = 29, y = alex_gpg, xend = 29, yend = .45 , last_name = "Matthews")
+
+df_text = tibble(x = 29, y = .4, label = "Ovechkin Career Rate",
+                 last_name = "Matthews")
+
+df_top_six %>% 
+    filter(last_name %in% c("Matthews", "McDavid", "Ovechkin")) %>% 
+    ggplot(aes(x = age, y = goals_per_game, color = last_name)) +
+    geom_line(size = .5) +
+    geom_point(size = 2) +
+    geom_hline(yintercept = alex_gpg) +
+    labs(x = "Age",
+         y = "Goals per Game",
+         color = "",
+         title = "Goals per Game") +
+    ggthemes::theme_hc() +
+    scale_y_continuous(limits = c(0,1)) +
+    scale_color_manual(values = values) +
+     theme(legend.position = "none",
+            axis.ticks = element_line(color ="light grey")) +
+    geom_segment(data = df_arrow, 
+                 aes(x= x, y=y, yend = yend, xend = xend, id= last_name),
+                 color = "black",
+                  arrow = arrow(length = unit(0.25, "cm"))) +
+    geom_text(data = df_text, aes(x = x,y=y, label = label, id = last_name), color = 'black', size = 3) +
+    facet_wrap(~last_name)
+```
+
+```{r}
+df_top_six %>% 
+    filter(last_name %in% c("Matthews", "McDavid", "Ovechkin"), age >= 20) %>% 
+    group_by(last_name) %>% 
+    summarize(goals_per_game = sum(stat_goals)/sum(stat_games))
+    
+```
+
+
+Both McDavid and Matthews have steadily increased their goals-per-game pace year-over-year, and in their last three seasons they are on par with Ovechkin's career pace. In fact, Matthews since age 20, which is the age Ovechkin began his NHL career, has had a greater goals-per-game rate - .63 compared to Ovechkin's .61. If we were to assume the last three years are a more accurate reflection of their future production level, then both Matthews and McDavid have a chance at getting close to Ovechkin. 
+
+The big question is can they maintain this pace? Part of this problem involves maintaining a high level of play for a long period of time, which other than Ovechkin no other player has really done. The other part involves a bit of luck - avoiding long-term injuries, which is partly what put Stamkos and Crosby so far behind Ovechkin.
+
+
+## Staying Healthy is the Key
+
+As mentioned earlier, Crosby and Stamkos both had significant injuries that caused them to miss major parts of multiple season, while Ovechkin was fortunate to play complete seasons almost every year for the entirety of his career - never playing less than 80% of the games in a season.
+
+```{r}
+df_top_six %>% 
+    left_join(df_games, by = c('season_end_yr'='year')) %>%
+    replace_na(list("games"=82)) %>% 
+    filter(season_end_yr != 2022,
+           last_name %in% c("Crosby", "Stamkos", "Ovechkin")) %>%
+    mutate(games_per = stat_games/games) %>% 
+    group_by(player_id) %>% 
+     filter(last_name == "Ovechkin", 
+           games_per == min(games_per)) %>% 
+    pull(games_per)
+    
+```
+
+
+```{r, include = TRUE, echo = FALSE}
+
+
+df_top_six %>% 
+    left_join(df_games, by = c('season_end_yr'='year')) %>%
+    replace_na(list("games"=82)) %>% 
+    filter(season_end_yr != 2022,
+           last_name %in% c("Crosby", "Stamkos", "Ovechkin")) %>%
+    mutate(games_per = stat_games/games) %>% 
+    # select(stat_games, games, games_per) %>% 
+    ggplot(aes(x = age, y = games_per, color = last_name)) +
+    geom_point() +
+    
+    geom_line() +
+    scale_y_continuous(labels = scales::percent_format(scale = 100),
+                       limit = c(0,1)) +
+    labs(title = "Games Played",
+         y = "% Games Played",
+         x = "Age",
+         color = "") +
+    ggthemes::theme_hc() +
+        theme(legend.position = "none",
+               axis.ticks = element_line(color ="light grey")) +
+     scale_color_manual(values = values) +
+    facet_wrap(~last_name)
+```
+
+
+
+If Matthews and McDavid want a chance at breaking the NHL goal record, they will have to stay healthy like Ovechkin.
+
+
+
+
+
+
+
+
+<!-- old stuff -->
+```{r, echo = FALSE}
+# library(httr)
+# library(data.table)
+# library(tidyverse)
+# library(lubridate)
+# 
+# get_career_stats <- function(first_name, last_name){
+# 
+#     base_url = 'https://suggest.svc.nhl.com/svc/suggest/v1/minplayers/'
+#     
+#     num_to_return = '1'
+#     
+#     full_url = stringr::str_c(base_url, first_name, '%20', last_name, '/', num_to_return)
+#     
+#     
+#     response = httr::GET(url = full_url)
+#     content = content(response)
+#     suggestions = content$suggestions[[1]]
+#     class(suggestions)
+#     player_info = stringr::str_split(suggestions,"\\|")[[1]]
+#     player_id = player_info[1]
+#     
+#     url = stringr::str_c('https://statsapi.web.nhl.com/api/v1/people/', 
+#                          player_id, 
+#                          '/stats/?stats=yearByYear')
+#     
+#     response = httr::GET(url = url)
+#     content = content(response)
+#     stats = content$stats
+#     splits = stats[[1]]$splits
+#     
+#     extract_data <- function(x){
+#         
+#         x %>% 
+#             unlist() %>% 
+#             enframe() %>% 
+#             mutate(name = str_replace(name,"\\.","_")) %>% 
+#             pivot_wider()
+#             
+#         
+#     }
+#     
+#     df = map_df(splits, extract_data)
+#     df %>% 
+#         filter(league_name == "National Hockey League") %>% 
+#         type_convert() %>% 
+#         mutate(goals_per_game = stat_goals/stat_games,
+#                player_id = player_id,
+#                first_name = player_info[3],
+#                last_name = player_info[2],
+#                bday = lubridate::ymd(player_info[11]),
+#                season_end_yr = str_sub(season,start = 5, end = 8),
+#                season_start_yr = str_sub(season, start = 1, end = 4),
+#                season_start = lubridate::ymd(stringr::str_c(season_start_yr,'0930')),
+#                age = floor(interval(bday, season_start) / years(1))
+#              
+#         )
+# }
+# 
+# df = get_career_stats('connor', 'mcdavid')
+# df
+```
+
+```{r}
+# values = c('Ovechkin' = 'red', 'McDavid' = 'orange')
+# 
+# df %>% 
+#     filter(last_name == "McDavid") %>% 
+#     ggplot(aes(x = age, y = cumsum, color = last_name)) +
+#     geom_point(size = 2) +
+#     geom_line(size = .5) +
+#     geom_line(data = df %>% filter(last_name == 'Ovechkin'), size = .5, alpha = .3) +
+#     # geom_point(data = df %>% filter(last_name == 'Ovechkin'), size = 2, alpha = .3) +
+#     labs(title= "Career Goals",
+#          subtitle = "Ovechkin vs. McDavid",
+#          y  = "Goals",
+#          x = "Age",
+#          color = "") +
+#     ggthemes::theme_hc() +
+#     scale_y_continuous(limits = c(0,1000)) +
+#     scale_color_manual(values = values)
+```

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Nick Paul&#39;s Blog</title>
+    <link>http://www.nickpaul.info/categories/python/</link>
+    <description>Recent content in Python on Nick Paul&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 13 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Collecting Historical Weather Data</title>
+      <link>http://www.nickpaul.info/post/2022-01-13-weather-intro/</link>
+      <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.nickpaul.info/post/2022-01-13-weather-intro/</guid>
+      <description>Introudction Pull the Data Transform the Data Find Something of Interest Model the Data Visualize the Results Conclusion  Introduction I was recently exploring different options to collect historical weather data for an NFL model I am working on and found there is no shortage of weather API options, including many paid services that want to sell you their product.
+Given that US Government collects a lot of the commercial weather data, I was hoping to find a free option.</description>
+    </item>
+    
+  </channel>
+</rss>

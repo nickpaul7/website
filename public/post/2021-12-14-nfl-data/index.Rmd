@@ -1,0 +1,28 @@
+---
+title: NFL Data
+author: ''
+date: '2021-12-14'
+slug: []
+categories: []
+tags: []
+subtitle: ''
+description: ''
+image: ''
+---
+
+
+```{r}
+library(readr)
+
+df <- read_csv("https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv")
+
+"http://nflsavant.com/about.php"
+
+
+```
+
+```{r}
+df %>% filter(season ==2021) %>% filter(stringr::str_detect(game_id, "NYG"))
+```
+
+
