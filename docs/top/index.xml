@@ -2,34 +2,34 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tops on Nick Paul&#39;s Blog</title>
-    <link>https://nickpaul7.github.io/website/top/</link>
+    <link>/top/</link>
     <description>Recent content in Tops on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://nickpaul7.github.io/website/top/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="/top/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>https://nickpaul7.github.io/website/top/about/</link>
+      <link>/top/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://nickpaul7.github.io/website/top/about/</guid>
+      <guid>/top/about/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>https://nickpaul7.github.io/website/top/books/</link>
+      <link>/top/books/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://nickpaul7.github.io/website/top/books/</guid>
+      <guid>/top/books/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Posts Archive</title>
-      <link>https://nickpaul7.github.io/website/top/archive/</link>
+      <link>/top/archive/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://nickpaul7.github.io/website/top/archive/</guid>
+      <guid>/top/archive/</guid>
       <description></description>
     </item>
     

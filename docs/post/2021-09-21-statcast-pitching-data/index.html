@@ -10,8 +10,8 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="https://nickpaul7.github.io/website//img/home-bg-jeep.jpg">
-    <meta property="twitter:image" content="https://nickpaul7.github.io/website//img/home-bg-jeep.jpg" />
+    <meta property="og:image" content="/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="/img/home-bg-jeep.jpg" />
     
 
     
@@ -32,22 +32,22 @@
     
 
     <meta name="keyword"  content="Nick Paul, Analyltics">
-    <link rel="shortcut icon" href="/website/img/favicon.ico">
+    <link rel="shortcut icon" href="/img/favicon.ico">
 
     <title>Intro to Statcast Pitching Data-Nick Paul Blog</title>
 
-    <link rel="canonical" href="/website/website/post/2021-09-21-statcast-pitching-data/">
+    <link rel="canonical" href="/post/2021-09-21-statcast-pitching-data/">
 
-    <link rel="stylesheet" href="/website/css/iDisqus.min.css"/>
-
-    
-    <link rel="stylesheet" href="/website/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 
     
-    <link rel="stylesheet" href="/website/css/hugo-theme-cleanwhite.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" href="/website/css/zanshang.css">
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
 
     
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
@@ -57,13 +57,13 @@
 
     
     
-    <script src="/website/js/jquery.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
 
     
-    <script src="/website/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 
     
-    <script src="/website/js/hux-blog.min.js"></script>
+    <script src="/js/hux-blog.min.js"></script>
 
     
     
@@ -84,7 +84,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/website/">Nick Paul&#39;s Blog</a>
+            <a class="navbar-brand" href="/">Nick Paul&#39;s Blog</a>
         </div>
 
         
@@ -93,33 +93,33 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/website/">Home</a>
+                        <a href="/">Home</a>
                     </li>
                     
                         
                         <li>
-                            <a href="/website/categories/analytics">analytics</a>
+                            <a href="/categories/analytics">analytics</a>
                         </li>
                         
                         <li>
-                            <a href="/website/categories/data-collection">data-collection</a>
+                            <a href="/categories/data-collection">data-collection</a>
                         </li>
                         
                         <li>
-                            <a href="/website/categories/data-visualization">data-visualization</a>
+                            <a href="/categories/data-visualization">data-visualization</a>
                         </li>
                         
                     
                     
 		    
-                        <li><a href="/website/top/archive/">ARCHIVE</a></li>
+                        <li><a href="/top/archive/">ARCHIVE</a></li>
                     
-                        <li><a href="/website/top/about/">ABOUT</a></li>
+                        <li><a href="/top/about/">ABOUT</a></li>
                     
 
                     
 		    <li>
-                        <a href="/website/search"><i class="fa fa-search"></i></a>
+                        <a href="/search"><i class="fa fa-search"></i></a>
 		    </li>
                     
                 </ul>
@@ -163,7 +163,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('/website/img/home-bg-jeep.jpg')
+        background-image: url('/img/home-bg-jeep.jpg')
     }
 </style>
 
@@ -175,27 +175,27 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/website/tags/python" title="Python">
+                        <a class="tag" href="/tags/python" title="Python">
                             Python
                         </a>
                         
-                        <a class="tag" href="/website/tags/mlb" title="MLB">
+                        <a class="tag" href="/tags/mlb" title="MLB">
                             MLB
                         </a>
                         
-                        <a class="tag" href="/website/tags/pandas" title="Pandas">
+                        <a class="tag" href="/tags/pandas" title="Pandas">
                             Pandas
                         </a>
                         
-                        <a class="tag" href="/website/tags/bokeh" title="bokeh">
+                        <a class="tag" href="/tags/bokeh" title="bokeh">
                             bokeh
                         </a>
                         
-                        <a class="tag" href="/website/tags/ggplot2" title="ggplot2">
+                        <a class="tag" href="/tags/ggplot2" title="ggplot2">
                             ggplot2
                         </a>
                         
-                        <a class="tag" href="/website/tags/r" title="R">
+                        <a class="tag" href="/tags/r" title="R">
                             R
                         </a>
                         
@@ -576,7 +576,7 @@ df_chapman %&gt;%
   ylim(c(1,4)) +
   facet_grid(game_year ~ pitch_type) +
   theme_bw()</code></pre>
-<p><img src="https://nickpaul7.github.io/website/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="results" class="section level2">
 <h2>Results</h2>
@@ -590,7 +590,7 @@ df_chapman %&gt;%
   geom_col() +
   coord_flip() +
   labs(title = &quot;Aroldis Chapman Event Types&quot;)</code></pre>
-<p><img src="https://nickpaul7.github.io/website/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>From the chart above, we can see Chapman is a strikeout pitcher.</p>
 <p>Let’s see if Chapman’s events have changed over time.</p>
 <pre class="r"><code>df_games &lt;- df_chapman %&gt;% 
@@ -616,7 +616,7 @@ df_chapman %&gt;%
   geom_line() +
   labs(title = &quot;Aroldis Chapman Event Types&quot;) +
   facet_wrap(~events, scales = &quot;free&quot;)</code></pre>
-<p><img src="https://nickpaul7.github.io/website/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>From this chart, we can see Chapman is trending up in home runs, walks, doubles, and down in force_outs, strikeouts, and force outs, which is not what you want from your closer.</p>
 </div>
 </div>
@@ -628,13 +628,13 @@ df_chapman %&gt;%
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/website/post/2021-09-20-statcast/" data-toggle="tooltip" data-placement="top" title="Collect Statcast Pitching Data">&larr;
+                        <a href="/post/2021-09-20-statcast/" data-toggle="tooltip" data-placement="top" title="Collect Statcast Pitching Data">&larr;
                             Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/website/post/2021-11-22-great8/" data-toggle="tooltip" data-placement="top" title="Ovi will Break the Great One&#39;s Goal Record">Next
+                        <a href="/post/2021-11-22-great8/" data-toggle="tooltip" data-placement="top" title="Ovi will Break the Great One&#39;s Goal Record">Next
                             Post &rarr;</a>
                     </li>
                     
@@ -663,25 +663,25 @@ df_chapman %&gt;%
                         
                         
                         
-                        <a href="/website/tags/bokeh" title="bokeh">
+                        <a href="/tags/bokeh" title="bokeh">
                             bokeh
                         </a>
                         
                         
                         
-                        <a href="/website/tags/ggplot2" title="ggplot2">
+                        <a href="/tags/ggplot2" title="ggplot2">
                             ggplot2
                         </a>
                         
                         
                         
-                        <a href="/website/tags/mlb" title="mlb">
+                        <a href="/tags/mlb" title="mlb">
                             mlb
                         </a>
                         
                         
                         
-                        <a href="/website/tags/nhl" title="nhl">
+                        <a href="/tags/nhl" title="nhl">
                             nhl
                         </a>
                         
@@ -689,13 +689,13 @@ df_chapman %&gt;%
                         
                         
                         
-                        <a href="/website/tags/python" title="python">
+                        <a href="/tags/python" title="python">
                             python
                         </a>
                         
                         
                         
-                        <a href="/website/tags/r" title="r">
+                        <a href="/tags/r" title="r">
                             r
                         </a>
                         

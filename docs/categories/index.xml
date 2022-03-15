@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Nick Paul&#39;s Blog</title>
-    <link>https://nickpaul7.github.io/website/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://nickpaul7.github.io/website/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Data-Collection</title>
-      <link>https://nickpaul7.github.io/website/categories/data-collection/</link>
+      <link>/categories/data-collection/</link>
       <pubDate>Tue, 01 Feb 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://nickpaul7.github.io/website/categories/data-collection/</guid>
+      <guid>/categories/data-collection/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Data-Visualization</title>
-      <link>https://nickpaul7.github.io/website/categories/data-visualization/</link>
+      <link>/categories/data-visualization/</link>
       <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://nickpaul7.github.io/website/categories/data-visualization/</guid>
+      <guid>/categories/data-visualization/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Analytics</title>
-      <link>https://nickpaul7.github.io/website/categories/analytics/</link>
+      <link>/categories/analytics/</link>
       <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://nickpaul7.github.io/website/categories/analytics/</guid>
+      <guid>/categories/analytics/</guid>
       <description></description>
     </item>
     
