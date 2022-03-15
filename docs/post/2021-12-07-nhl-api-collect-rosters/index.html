@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Nick Paul&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="NHL API - Collect Rosters" />
+    <meta property="og:title" content="NHL API - Collect Rosters" />
+    <meta property="twitter:title" content="NHL API - Collect Rosters" />
+    
+
+    
+    <meta name="description" content="In this post we will explore collecting NHL roster data.">
+    <meta property="og:description" content="In this post we will explore collecting NHL roster data." />
+    <meta property="twitter:description" content="In this post we will explore collecting NHL roster data." />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="Nick Paul, Analyltics">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>NHL API - Collect Rosters-Nick Paul Blog</title>
+
+    <link rel="canonical" href="/post/2021-12-07-nhl-api-collect-rosters/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Nick Paul&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/analytics">analytics</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/data-collection">data-collection</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/data-visualization">data-visualization</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/archive/">ARCHIVE</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/img/home-bg-jeep.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        <a class="tag" href="/tags/nhl" title="NHL">
+                            NHL
+                        </a>
+                        
+                    </div>
+                    <h1>NHL API - Collect Rosters</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                 Nick Paul
+                             
+                            on 
+                            Tuesday, December 7, 2021
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                
+                
+                
+
+
+<ol style="list-style-type: decimal">
+<li><a href="#import-libs">Import Libraries</a></li>
+<li><a href="#collect-team-info">Collect Team Info</a></li>
+<li><a href="#collect-roster">Collect Roster</a></li>
+<li><a href="#collect-career-stats">Collect Career Stats</a></li>
+<li><a href="#collect-all-players-in-a-season">Collect All Players in a Season</a></li>
+</ol>
+<p>In this post we will explore how to get roster data for each NHL team. We will then look at how to get career stats for each player on a particular roster. Finally, we will get career stats for all players from a particular season.</p>
+<div id="import-libraries" class="section level2">
+<h2>Import Libraries</h2>
+<pre class="python"><code>import requests
+import json
+import pandas as pd</code></pre>
+</div>
+<div id="collect-team-info" class="section level2">
+<h2>Collect Team Info</h2>
+<p>The first step is to collect data about NHL teams. This will allow us to focus on active NHL teams.</p>
+<pre class="python"><code>
+teams_url = &quot;https://statsapi.web.nhl.com/api/v1/teams&quot;
+team_response = requests.get(teams_url)
+
+team_content = json.loads(team_response.content)
+df_teams = pd.json_normalize(team_content[&#39;teams&#39;],
+sep = &quot;_&quot;)
+
+df_teams.info()</code></pre>
+<pre><code>## &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+## RangeIndex: 32 entries, 0 to 31
+## Data columns (total 29 columns):
+##  #   Column                 Non-Null Count  Dtype  
+## ---  ------                 --------------  -----  
+##  0   id                     32 non-null     int64  
+##  1   name                   32 non-null     object 
+##  2   link                   32 non-null     object 
+##  3   abbreviation           32 non-null     object 
+##  4   teamName               32 non-null     object 
+##  5   locationName           32 non-null     object 
+##  6   firstYearOfPlay        32 non-null     object 
+##  7   shortName              32 non-null     object 
+##  8   officialSiteUrl        32 non-null     object 
+##  9   franchiseId            32 non-null     int64  
+##  10  active                 32 non-null     bool   
+##  11  venue_name             32 non-null     object 
+##  12  venue_link             32 non-null     object 
+##  13  venue_city             32 non-null     object 
+##  14  venue_timeZone_id      32 non-null     object 
+##  15  venue_timeZone_offset  32 non-null     int64  
+##  16  venue_timeZone_tz      32 non-null     object 
+##  17  division_id            32 non-null     int64  
+##  18  division_name          32 non-null     object 
+##  19  division_nameShort     32 non-null     object 
+##  20  division_link          32 non-null     object 
+##  21  division_abbreviation  32 non-null     object 
+##  22  conference_id          32 non-null     int64  
+##  23  conference_name        32 non-null     object 
+##  24  conference_link        32 non-null     object 
+##  25  franchise_franchiseId  32 non-null     int64  
+##  26  franchise_teamName     32 non-null     object 
+##  27  franchise_link         32 non-null     object 
+##  28  venue_id               25 non-null     float64
+## dtypes: bool(1), float64(1), int64(6), object(21)
+## memory usage: 7.2+ KB</code></pre>
+</div>
+<div id="collect-roster" class="section level2">
+<h2>Collect Roster</h2>
+<p>Next, we create a function to get a team roster for a particular season.</p>
+<pre class="python"><code>df_teams[&#39;link&#39;] = &#39;https://statsapi.web.nhl.com&#39; + df_teams[&#39;link&#39;]
+df_active = df_teams.loc[df_teams[&#39;active&#39;]==True]
+
+def get_team_roster(team, season):
+
+    base_url = df_active.loc[df_active[&#39;name&#39;]==team][&#39;link&#39;].iloc[0]
+    print(base_url)
+    url = base_url + &quot;/roster/&quot; + &quot;?season=&quot; + season
+    
+    response = requests.get(url)
+    roster = response.json()[&quot;roster&quot;]
+    
+    df_roster = pd.json_normalize(roster, sep = &quot;_&quot;).astype(str)
+
+    return df_roster
+    
+df_roster = get_team_roster(&quot;New York Rangers&quot;, &#39;20192020&#39;)</code></pre>
+<pre><code>## https://statsapi.web.nhl.com/api/v1/teams/3</code></pre>
+<pre class="python"><code>df_roster</code></pre>
+<pre><code>##    jerseyNumber person_id  ... position_type position_abbreviation
+## 0            18   8471686  ...    Defenseman                     D
+## 1             7   8474090  ...    Defenseman                     D
+## 2            38   8474230  ...       Forward                    LW
+## 3            20   8475184  ...       Forward                    LW
+## 4            14   8475735  ...       Forward                     C
+## 5            71   8475855  ...       Forward                    RW
+## 6            29   8476396  ...       Forward                     C
+## 7            16   8476458  ...       Forward                     C
+## 8            93   8476459  ...       Forward                     C
+## 9            92   8476480  ...       Forward                     C
+## 10           34   8476858  ...       Forward                    LW
+## 11           76   8476869  ...    Defenseman                     D
+## 12            8   8476885  ...    Defenseman                     D
+## 13           59   8476922  ...       Forward                     C
+## 14           89   8477402  ...       Forward                    LW
+## 15           77   8477950  ...    Defenseman                     D
+## 16           48   8477962  ...       Forward                    LW
+## 17           10   8478550  ...       Forward                    LW
+## 18           23   8479323  ...    Defenseman                     D
+## 19           55   8479324  ...    Defenseman                     D
+## 20           15   8479328  ...       Forward                    RW
+## 21           25   8479333  ...    Defenseman                     D
+## 22           21   8479353  ...       Forward                     C
+## 23           26   8479364  ...       Forward                    LW
+## 24           17   8480072  ...       Forward                     C
+## 25           72   8480078  ...       Forward                     C
+## 26           24   8481554  ...       Forward                    RW
+## 27           30   8468685  ...        Goalie                     G
+## 28           31   8478048  ...        Goalie                     G
+## 29           40   8480382  ...        Goalie                     G
+## 
+## [30 rows x 8 columns]</code></pre>
+</div>
+<div id="collect-career-stats" class="section level2">
+<h2>Collect Career Stats</h2>
+<p>Now that we have player IDs for each player on a team, lets create a function that gets year-by-year stats for a particular player.</p>
+<pre class="python"><code>from datetime import datetime
+import numpy as np
+
+def get_career_stats(player_id):
+
+      
+    url = &#39;https://statsapi.web.nhl.com/api/v1/people/&#39; + player_id + &#39;/stats/?stats=yearByYear&#39;
+    response = requests.get(url)
+    content = json.loads(response.content)[&#39;stats&#39;]
+    splits = content[0][&#39;splits&#39;]
+
+    df_splits = (pd.json_normalize(splits, sep = &quot;_&quot; )
+             .query(&#39;league_name == &quot;National Hockey League&quot;&#39;)
+            )
+    if df_splits.shape[0] &gt; 0 :
+    
+        url_info = &#39;https://statsapi.web.nhl.com/api/v1/people/&#39; + player_id
+        response = requests.get(url_info)
+        player_info = json.loads(response.content)[&#39;people&#39;][0]
+
+        if player_info[&#39;primaryPosition&#39;][&#39;code&#39;] != &quot;G&quot;:
+            df_splits[&#39;goals_per_game&#39;]=  df_splits[&#39;stat_goals&#39;]/df_splits[&#39;stat_games&#39;]
+        df_splits[&#39;player_id&#39;] = player_id
+        df_splits[&#39;first_name&#39;] = player_info[&#39;firstName&#39;]
+        df_splits[&#39;last_name&#39;] = player_info[&#39;lastName&#39;]
+        df_splits[&#39;bday&#39;] = pd.to_datetime(player_info[&#39;birthDate&#39;])
+        df_splits[&#39;season_end_yr&#39;] = [x[4:8] for x in df_splits[&#39;season&#39;]]
+        df_splits[&#39;season_start_yr&#39;] = [x[0:4] for x in df_splits[&#39;season&#39;]]
+        df_splits[&#39;season_start_dt&#39;] =  [datetime.strptime(x + &#39;0930&#39;, &quot;%Y%m%d&quot;) for x in df_splits[&#39;season_start_yr&#39;]] 
+        df_splits[&#39;age&#39;] = (np.floor((df_splits[&#39;season_start_dt&#39;] - df_splits[&#39;bday&#39;])/ np.timedelta64(1,&#39;Y&#39;) ))
+        df_splits[&#39;age&#39;] = df_splits[&#39;age&#39;].astype(int)
+    
+    return df_splits
+    
+get_career_stats(player_id = &#39;8478402&#39;)</code></pre>
+<pre><code>##       season  sequenceNumber  stat_assists  ...  season_start_yr  season_start_dt  age
+## 8   20152016               1            32  ...             2015       2015-09-30   18
+## 11  20162017               1            70  ...             2016       2016-09-30   19
+## 13  20172018               1            67  ...             2017       2017-09-30   20
+## 15  20182019               1            75  ...             2018       2018-09-30   21
+## 16  20192020               1            63  ...             2019       2019-09-30   22
+## 17  20202021               1            72  ...             2020       2020-09-30   23
+## 18  20212022               1            37  ...             2021       2021-09-30   24
+## 
+## [7 rows x 40 columns]</code></pre>
+<p>Now we can loop over the player ids from a roster and collect year-by-year stats for each player.</p>
+<pre class="python"><code>stats = []
+for player_id in df_roster[&#39;person_id&#39;]:
+    df = get_career_stats(player_id)
+    stats.append(df)
+df_all = pd.concat(stats)
+df_all</code></pre>
+<pre><code>##       season  ...  stat_evenStrengthSavePercentage
+## 7   20072008  ...                              NaN
+## 8   20082009  ...                              NaN
+## 9   20092010  ...                              NaN
+## 11  20102011  ...                              NaN
+## 12  20112012  ...                              NaN
+## ..       ...  ...                              ...
+## 9   20172018  ...                        92.280702
+## 11  20182019  ...                        91.399083
+## 14  20192020  ...                        91.397849
+## 15  20202021  ...                        91.044776
+## 16  20212022  ...                        91.079812
+## 
+## [219 rows x 60 columns]</code></pre>
+</div>
+<div id="collect-all-players-in-a-season" class="section level2">
+<h2>Collect All Players in a Season</h2>
+<p>Next, we can loop over every team and collect rosters for all active teams from a particular seaason.</p>
+<pre class="python"><code>rosters = []
+season = &#39;20212022&#39;
+for team in df_active[&#39;name&#39;]:
+    df_roster = get_team_roster(team, season)
+    rosters.append(df_roster)</code></pre>
+<pre><code>## https://statsapi.web.nhl.com/api/v1/teams/1
+## https://statsapi.web.nhl.com/api/v1/teams/2
+## https://statsapi.web.nhl.com/api/v1/teams/3
+## https://statsapi.web.nhl.com/api/v1/teams/4
+## https://statsapi.web.nhl.com/api/v1/teams/5
+## https://statsapi.web.nhl.com/api/v1/teams/6
+## https://statsapi.web.nhl.com/api/v1/teams/7
+## https://statsapi.web.nhl.com/api/v1/teams/8
+## https://statsapi.web.nhl.com/api/v1/teams/9
+## https://statsapi.web.nhl.com/api/v1/teams/10
+## https://statsapi.web.nhl.com/api/v1/teams/12
+## https://statsapi.web.nhl.com/api/v1/teams/13
+## https://statsapi.web.nhl.com/api/v1/teams/14
+## https://statsapi.web.nhl.com/api/v1/teams/15
+## https://statsapi.web.nhl.com/api/v1/teams/16
+## https://statsapi.web.nhl.com/api/v1/teams/17
+## https://statsapi.web.nhl.com/api/v1/teams/18
+## https://statsapi.web.nhl.com/api/v1/teams/19
+## https://statsapi.web.nhl.com/api/v1/teams/20
+## https://statsapi.web.nhl.com/api/v1/teams/21
+## https://statsapi.web.nhl.com/api/v1/teams/22
+## https://statsapi.web.nhl.com/api/v1/teams/23
+## https://statsapi.web.nhl.com/api/v1/teams/24
+## https://statsapi.web.nhl.com/api/v1/teams/25
+## https://statsapi.web.nhl.com/api/v1/teams/26
+## https://statsapi.web.nhl.com/api/v1/teams/28
+## https://statsapi.web.nhl.com/api/v1/teams/29
+## https://statsapi.web.nhl.com/api/v1/teams/30
+## https://statsapi.web.nhl.com/api/v1/teams/52
+## https://statsapi.web.nhl.com/api/v1/teams/53
+## https://statsapi.web.nhl.com/api/v1/teams/54
+## https://statsapi.web.nhl.com/api/v1/teams/55</code></pre>
+<pre class="python"><code>df_all_rosters = pd.concat(rosters)
+df_all_rosters</code></pre>
+<pre><code>##    jerseyNumber person_id  ... position_type position_abbreviation
+## 0            45   8473541  ...        Goalie                     G
+## 1             7   8476462  ...    Defenseman                     D
+## 2            44   8477425  ...       Forward                    LW
+## 3            29   8478406  ...        Goalie                     G
+## 4            20   8479415  ...       Forward                     C
+## ..          ...       ...  ...           ...                   ...
+## 22           29   8478407  ...    Defenseman                     D
+## 23           55   8478468  ...    Defenseman                     D
+## 24           22   8478891  ...       Forward                     C
+## 25            8   8479985  ...    Defenseman                     D
+## 26           67   8479987  ...       Forward                     C
+## 
+## [851 rows x 8 columns]</code></pre>
+<p>Finally, we can loop over all players to get year-by-year stats for all players during a particular seasn.</p>
+<pre class="python"><code>stats = []
+for player_id in df_all_rosters[&#39;person_id&#39;]:
+    print(player_id)
+    df = get_career_stats(player_id)
+    stats.append(df)
+
+df_all_stats = pd.concat(stats)
+df_all_stats</code></pre>
+<pre class="python"><code>df_all_stats.to_csv(&quot;nhl_20212022_career_stats.csv&quot;)</code></pre>
+</div>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2021-12-06-nhl-mcdavid/" data-toggle="tooltip" data-placement="top" title="Ovechkin May Not Hold the NHL All-Time Goal Record for Long">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2022-01-13-weather-intro/" data-toggle="tooltip" data-placement="top" title="Collecting Historical Weather Data">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-11 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/bokeh" title="bokeh">
+                            bokeh
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/ggplot2" title="ggplot2">
+                            ggplot2
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/mlb" title="mlb">
+                            mlb
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/nhl" title="nhl">
+                            nhl
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/r" title="r">
+                            r
+                        </a>
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Nick Paul&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:nickryanpaul@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/nickpaul7">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/nick-paul-8b466818/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Nick Paul&#39;s Blog 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+---
+title: Collecting Historical Weather Data
+author: ' Nick Paul'
+date: '2022-01-13'
+slug: []
+categories: ['Analytics', 'Data-Collection']
+tags: ['python', 'bokeh']
+subtitle: ''
+description: 'A brief introduction to collecting weather data.'
+image: ''
+---
+
+1. [Introudction](#introduction)
+1. [Pull the Data](#pull-the-data)
+1. [Transform the Data](#transform-the-data)
+1. [Find Something of Interest](#find-something-of-interest)
+1. [Model the Data](#model-the-data)
+1. [Visualize the Results](#visualize-the-results)
+1. [Conclusion](conclusion)
+
+## Introduction
+
+I was recently exploring different options to collect historical weather data for an NFL model I am working on and found there is no shortage of weather API options, including many paid services that want to sell you their product.
+
+Given that US Government collects a lot of the commercial weather data, I was hoping to find a free option. After a little digging, I found the `meteostat` python library, which is easy to use and has a few different NOAA data sets. 
+
+I did find the raw data from NOAA, which you can easily grab as a json file (Newark weather data: https://www.ncei.noaa.gov/access/past-weather/USW00014734/data.json), but the `meteostat` package removes a lot of the boiler plate data transformation work required for your own bespoke solution: creating a process to look up weather stations, parse the returned data, convert the units, etc..  
+
+Using `meteostat`, you should be up and running with the data you need in under 5 minutes. Sounds like a win to me!
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+reticulate::use_python("/home/rstudio/.local/share/r-miniconda/envs/pandas/bin/python",required = TRUE)
+```
+
+
+```{r include=FALSE}
+library(reticulate)
+use_condaenv("pandas")
+```
+
+```{r, eval = FALSE, include = FALSE}
+py_install(
+  c('meteostat'),
+  envname = 'pandas',
+  method = c("auto", "virtualenv", "conda"),
+  conda = "auto",
+  python_version = NULL,
+  pip = TRUE,
+)
+
+
+py_install(
+  c('scikit-learn'),
+  envname = 'pandas',
+  method = c("auto", "virtualenv", "conda"),
+  conda = "auto",
+  python_version = NULL,
+  pip = FALSE,
+)
+
+# conda_install(envname = "pandas", 'sklearn')
+```
+
+
+## Pull the Data
+
+Let's start by pulling a sample data set. 
+
+The easiest way to pull a data set is to pick a point on the map you are interested in, and `meteostat` will find the closest weather station to this point. This is super helpful and removes the need to look up weather station codes and locations. 
+
+Below I will pull data for D.C. using the lat and long, which is easy to grab from Google maps - just right click on the point you want.
+
+```{python}
+from datetime import datetime
+from meteostat import Point, Daily, units
+
+# Set time period
+start = datetime(1900, 1, 1)
+end = datetime(2022, 1, 10)
+
+# Create Point for DC
+location = Point(38.72168084908155, -77.04777737365207)
+
+# Get daily data
+data = Daily(location, start, end)
+data = data.convert(units.imperial)
+data = data.fetch()
+```
+
+Note that we converted the data to imperial units (e.g., Fahrenheit and inches). A nice feature from `meteostat` that saves us time.
+
+## Transform the Data
+
+Next we will transform the data to facilitate exploring a quick question: given the discussion of global warming, does D.C. have more 90+ days than it used to. 
+
+```{python}
+import pandas as pd
+import math
+
+df = data.reset_index()
+df['time'] = pd.to_datetime(df['time'])
+df['month'] = df['time'].dt.month
+df['year'] = df['time'].dt.year
+df['decade'] = [math.floor(x/10) * 10 for x in df['year']]
+```
+
+## Find Something of Interest
+
+Now that our data is ready to work with, let's conduct some specific transformations to identify if there has been an increase in 90+ days in the D.C. area.
+
+```{python}
+temp = 90
+df_summary = (
+    df
+    .query('tmax >= @temp')
+    .groupby(['year'], as_index = False)
+    .size()
+    )
+
+df_summary
+```
+
+## Model the Data
+
+Weather data is highly variable from year to year, so let's create two models to help us identify a pattern: a 5 year moving average and a simple linear regression over the entire data set (year will be our dependent variable and number of 90+ days will be our independent variable).
+
+```{python}
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+# rolling average
+df_summary = (df_summary
+                .assign(rolling = lambda df: df['size'].rolling(5, min_periods = 5).mean())
+                .query('~rolling.isnull()')
+                )
+
+# linear regression
+X = df_summary['year'].values.reshape(-1, 1)  
+Y = df_summary['size'].values  
+linear_regressor = LinearRegression()  
+
+linear_regressor.fit(X, Y)  # perform linear regression
+Y_pred = linear_regressor.predict(X)  # make predictions
+
+df_summary['pred'] = Y_pred
+df_summary
+```
+
+## Visualize the Results
+
+Now that we have our models, let's visualize the results.
+
+```{python echo=TRUE, results = 'hide'}
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import figure, output_file, show
+from bokeh.io import save
+from bokeh.models import ColumnDataSource
+
+
+source = ColumnDataSource(df_summary)
+
+TOOLTIPS = [("Year", "@year"),
+          ("Count of days", "@size")]
+
+p = figure(tooltips = TOOLTIPS,
+          title = "Washington D.C. Is Having More 90+ Days")
+
+p.circle(x = "year", y = 'size', source = source, color = "lightgrey")
+p.line(x ='year', y = 'rolling', source = source, color = "orange")
+p.line(x = 'year', y = 'pred', source = source, color = "red")
+
+p.yaxis.axis_label = 'Number of Days Exceeding 90 Degrees'
+p.yaxis.minor_tick_line_color = None
+p.xaxis.minor_tick_line_color = None
+
+output_file("dc_weather.html")
+
+save(p)
+```
+```{r, echo = FALSE}
+htmltools::includeHTML("./dc_weather.html")
+```
+
+From the data, we can see that D.C. appears to have an additional 10 90-plus-days over the last 100ish years.
+
+
+## Conclusion
+
+As you can see, `meteostat` makes it fairly easy to pull historical weather data and get straight to your analysis. In the future, I plan to use this data to augment an over/under model for NFL games.
