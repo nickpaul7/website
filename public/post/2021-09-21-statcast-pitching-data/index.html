@@ -10,8 +10,8 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg">
-    <meta property="twitter:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg" />
+    <meta property="og:image" content="/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="/img/home-bg-jeep.jpg" />
     
 
     
@@ -576,7 +576,7 @@ df_chapman %&gt;%
   ylim(c(1,4)) +
   facet_grid(game_year ~ pitch_type) +
   theme_bw()</code></pre>
-<p><img src="http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="results" class="section level2">
 <h2>Results</h2>
@@ -590,7 +590,7 @@ df_chapman %&gt;%
   geom_col() +
   coord_flip() +
   labs(title = &quot;Aroldis Chapman Event Types&quot;)</code></pre>
-<p><img src="http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>From the chart above, we can see Chapman is a strikeout pitcher.</p>
 <p>Let’s see if Chapman’s events have changed over time.</p>
 <pre class="r"><code>df_games &lt;- df_chapman %&gt;% 
@@ -616,7 +616,7 @@ df_chapman %&gt;%
   geom_line() +
   labs(title = &quot;Aroldis Chapman Event Types&quot;) +
   facet_wrap(~events, scales = &quot;free&quot;)</code></pre>
-<p><img src="http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/post/2021-09-21-statcast-pitching-data/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>From this chart, we can see Chapman is trending up in home runs, walks, doubles, and down in force_outs, strikeouts, and force outs, which is not what you want from your closer.</p>
 </div>
 </div>

@@ -2,94 +2,94 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://www.nickpaul.info/categories/</loc>
+    <loc>/categories/</loc>
     <lastmod>2022-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2022-02-01-webscraping101/</loc>
+    <loc>/post/2022-02-01-webscraping101/</loc>
     <lastmod>2022-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/categories/data-collection/</loc>
+    <loc>/categories/data-collection/</loc>
     <lastmod>2022-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/</loc>
+    <loc>/</loc>
     <lastmod>2022-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2022-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/r/</loc>
+    <loc>/tags/r/</loc>
     <lastmod>2022-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2022-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2022-01-27-nyt-plots/</loc>
+    <loc>/post/2022-01-27-nyt-plots/</loc>
     <lastmod>2022-01-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/categories/data-visualization/</loc>
+    <loc>/categories/data-visualization/</loc>
     <lastmod>2022-01-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/ggplot2/</loc>
+    <loc>/tags/ggplot2/</loc>
     <lastmod>2022-01-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2022-01-25-data-viz/</loc>
+    <loc>/post/2022-01-25-data-viz/</loc>
     <lastmod>2022-01-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/categories/analytics/</loc>
+    <loc>/categories/analytics/</loc>
     <lastmod>2022-01-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/bokeh/</loc>
+    <loc>/tags/bokeh/</loc>
     <lastmod>2022-01-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2022-01-13-weather-intro/</loc>
+    <loc>/post/2022-01-13-weather-intro/</loc>
     <lastmod>2022-01-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/python/</loc>
+    <loc>/tags/python/</loc>
     <lastmod>2022-01-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/nhl/</loc>
+    <loc>/tags/nhl/</loc>
     <lastmod>2021-12-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2021-12-07-nhl-api-collect-rosters/</loc>
+    <loc>/post/2021-12-07-nhl-api-collect-rosters/</loc>
     <lastmod>2021-12-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2021-12-06-nhl-mcdavid/</loc>
+    <loc>/post/2021-12-06-nhl-mcdavid/</loc>
     <lastmod>2021-12-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/api/</loc>
+    <loc>/tags/api/</loc>
     <lastmod>2021-12-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2021-12-03-nhl-api-single-season-stats/</loc>
+    <loc>/post/2021-12-03-nhl-api-single-season-stats/</loc>
     <lastmod>2021-12-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2021-11-22-great8/</loc>
+    <loc>/post/2021-11-22-great8/</loc>
     <lastmod>2021-11-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</loc>
+    <loc>/post/2021-09-21-statcast-pitching-data/</loc>
     <lastmod>2021-09-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/mlb/</loc>
+    <loc>/tags/mlb/</loc>
     <lastmod>2021-09-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/pandas/</loc>
+    <loc>/tags/pandas/</loc>
     <lastmod>2021-09-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/post/2021-09-20-statcast/</loc>
+    <loc>/post/2021-09-20-statcast/</loc>
     <lastmod>2021-09-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/tags/statcast/</loc>
+    <loc>/tags/statcast/</loc>
     <lastmod>2021-09-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://www.nickpaul.info/search/placeholder/</loc>
+    <loc>/search/placeholder/</loc>
   </url><url>
-    <loc>http://www.nickpaul.info/top/about/</loc>
+    <loc>/top/about/</loc>
   </url><url>
-    <loc>http://www.nickpaul.info/top/books/</loc>
+    <loc>/top/books/</loc>
   </url><url>
-    <loc>http://www.nickpaul.info/top/archive/</loc>
+    <loc>/top/archive/</loc>
   </url><url>
-    <loc>http://www.nickpaul.info/search/</loc>
+    <loc>/search/</loc>
   </url><url>
-    <loc>http://www.nickpaul.info/top/</loc>
+    <loc>/top/</loc>
   </url>
 </urlset>

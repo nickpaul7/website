@@ -1,0 +1,97 @@
+---
+title: Collect Statcast Pitching Data
+author: ' Nick Paul'
+date: '2021-09-20'
+slug: []
+categories:
+  - Data-Collection
+tags:
+  - Python
+  - Statcast
+  - MLB
+subtitle: ''
+description: 'Quick tutorial on collecting Statcast pitching data'
+image: ''
+---
+
+
+
+<ol style="list-style-type: decimal">
+<li><a href="#intro-to-statcast-data">Intro</a></li>
+<li><a href="#focus-on-the-task">Advice</a></li>
+<li><a href="##ython-tools">Collect Pitcher Data</a></li>
+<li><a href="#next-steps">Next Steps</a></li>
+</ol>
+<div id="intro-to-statcast-data" class="section level1">
+<h1>Intro to Statcast Data</h1>
+<p>This post will serve as a short introduction to collecting statcast data.</p>
+</div>
+<div id="focus-on-the-task" class="section level1">
+<h1>Focus on the Task</h1>
+<p>When I first started collecting sports data, I built a number of homemade packages in R and
+python, which was a great learning experience - my package development, web scraping and API
+interaction skills all leveled up. There was, however, alot more time dedicated to collecting the data than actually analyzing the data. So, if Data Analysis is your end game, you can save alot of time (and headaches!) by using existing packages. Beware the distraction
+of building your own bespoke soultion - it probably will not do as much or work us well as
+what already exists (unless of course, that is your goal!).</p>
+<p>For now, we are going to focus on a few exsisting packages that I find useful so we can get to the analysis. If you are interested in learning how to do it yourself, looking at the guts
+of these packages is also a great starting point!</p>
+</div>
+<div id="python-tools" class="section level1">
+<h1>Python Tools</h1>
+<p><code>pybaseball</code> is a great package for collecting baseball data. Along with statcast data, <code>pybaseball</code> can collect data from fangraphs and baseball reference.</p>
+<p>Check out more info here:
+<a href="https://github.com/jldbc/pybaseball">https://github.com/jldbc/pybaseball</a></p>
+<pre class="bash"><code>pip install pybaseball</code></pre>
+<p>To get pitching data for a particular player, use <code>playerid_lookup</code> and then <code>statcast_pitcher</code>.</p>
+<pre class="python"><code>import pandas as pd
+from pybaseball import statcast
+from pybaseball import playerid_lookup
+from pybaseball import statcast_pitcher
+
+player_id = playerid_lookup(&#39;Chapman&#39;, &#39;Aroldis&#39;)</code></pre>
+<pre><code>## Gathering player lookup table. This may take a moment.</code></pre>
+<pre class="python"><code>player_id</code></pre>
+<pre><code>##   name_last name_first  ...  mlb_played_first mlb_played_last
+## 0   chapman    aroldis  ...            2010.0          2021.0
+## 
+## [1 rows x 8 columns]</code></pre>
+<pre class="python"><code>pid = player_id.key_mlbam[0]
+print(pid)</code></pre>
+<pre><code>## 547973</code></pre>
+<pre class="python"><code>chapman_stats = statcast_pitcher(&#39;2015-03-01&#39;,&#39;2021-10-01&#39;,pid)</code></pre>
+<pre><code>## Gathering Player Data</code></pre>
+<pre class="python"><code>chapman_stats.columns</code></pre>
+<pre><code>## Index([&#39;pitch_type&#39;, &#39;game_date&#39;, &#39;release_speed&#39;, &#39;release_pos_x&#39;,
+##        &#39;release_pos_z&#39;, &#39;player_name&#39;, &#39;batter&#39;, &#39;pitcher&#39;, &#39;events&#39;,
+##        &#39;description&#39;, &#39;spin_dir&#39;, &#39;spin_rate_deprecated&#39;,
+##        &#39;break_angle_deprecated&#39;, &#39;break_length_deprecated&#39;, &#39;zone&#39;, &#39;des&#39;,
+##        &#39;game_type&#39;, &#39;stand&#39;, &#39;p_throws&#39;, &#39;home_team&#39;, &#39;away_team&#39;, &#39;type&#39;,
+##        &#39;hit_location&#39;, &#39;bb_type&#39;, &#39;balls&#39;, &#39;strikes&#39;, &#39;game_year&#39;, &#39;pfx_x&#39;,
+##        &#39;pfx_z&#39;, &#39;plate_x&#39;, &#39;plate_z&#39;, &#39;on_3b&#39;, &#39;on_2b&#39;, &#39;on_1b&#39;,
+##        &#39;outs_when_up&#39;, &#39;inning&#39;, &#39;inning_topbot&#39;, &#39;hc_x&#39;, &#39;hc_y&#39;,
+##        &#39;tfs_deprecated&#39;, &#39;tfs_zulu_deprecated&#39;, &#39;fielder_2&#39;, &#39;umpire&#39;, &#39;sv_id&#39;,
+##        &#39;vx0&#39;, &#39;vy0&#39;, &#39;vz0&#39;, &#39;ax&#39;, &#39;ay&#39;, &#39;az&#39;, &#39;sz_top&#39;, &#39;sz_bot&#39;,
+##        &#39;hit_distance_sc&#39;, &#39;launch_speed&#39;, &#39;launch_angle&#39;, &#39;effective_speed&#39;,
+##        &#39;release_spin_rate&#39;, &#39;release_extension&#39;, &#39;game_pk&#39;, &#39;pitcher.1&#39;,
+##        &#39;fielder_2.1&#39;, &#39;fielder_3&#39;, &#39;fielder_4&#39;, &#39;fielder_5&#39;, &#39;fielder_6&#39;,
+##        &#39;fielder_7&#39;, &#39;fielder_8&#39;, &#39;fielder_9&#39;, &#39;release_pos_y&#39;,
+##        &#39;estimated_ba_using_speedangle&#39;, &#39;estimated_woba_using_speedangle&#39;,
+##        &#39;woba_value&#39;, &#39;woba_denom&#39;, &#39;babip_value&#39;, &#39;iso_value&#39;,
+##        &#39;launch_speed_angle&#39;, &#39;at_bat_number&#39;, &#39;pitch_number&#39;, &#39;pitch_name&#39;,
+##        &#39;home_score&#39;, &#39;away_score&#39;, &#39;bat_score&#39;, &#39;fld_score&#39;, &#39;post_away_score&#39;,
+##        &#39;post_home_score&#39;, &#39;post_bat_score&#39;, &#39;post_fld_score&#39;,
+##        &#39;if_fielding_alignment&#39;, &#39;of_fielding_alignment&#39;, &#39;spin_axis&#39;,
+##        &#39;delta_home_win_exp&#39;, &#39;delta_run_exp&#39;],
+##       dtype=&#39;object&#39;)</code></pre>
+</div>
+<div id="save-the-data" class="section level1">
+<h1>Save the Data</h1>
+<p>I have found that an incredibly important step when collecting data is to
+save an untransformed version before conducting any analysis. It is much faster to work with locally stored data than to recollect every time you want to test your ETL pipeline.</p>
+<p>So, our last step here is to save the data.</p>
+<pre class="python"><code>chapman_stats.to_csv(&quot;./chapman_20150301-20211001.csv&quot;)</code></pre>
+<div id="next-steps" class="section level2">
+<h2>Next Steps</h2>
+<p>In the next article, we will explore working with Statcast Data.</p>
+</div>
+</div>

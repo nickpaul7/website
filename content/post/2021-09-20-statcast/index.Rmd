@@ -1,0 +1,100 @@
+---
+title: Collect Statcast Pitching Data
+author: ' Nick Paul'
+date: '2021-09-20'
+slug: []
+categories:
+  - Data-Collection
+tags:
+  - Python
+  - Statcast
+  - MLB
+subtitle: ''
+description: 'Quick tutorial on collecting Statcast pitching data'
+image: ''
+---
+
+1. [Intro](#intro-to-statcast-data)
+2. [Advice](#focus-on-the-task)
+3. [Collect Pitcher Data](##ython-tools)
+4. [Next Steps](#next-steps)
+
+# Intro to Statcast Data 
+
+This post will serve as a short introduction to collecting statcast data.  
+
+# Focus on the Task
+
+When I first started collecting sports data, I built a number of homemade packages in R and 
+python, which was a great learning experience - my package development, web scraping and API 
+interaction skills all leveled up.  There was, however, alot more time dedicated to collecting the data than actually analyzing the data.  So, if Data Analysis is your end game, you can save alot of time (and headaches!) by using existing packages.  Beware the distraction 
+of building your own bespoke soultion - it probably will not do as much or work us well as
+what already exists (unless of course, that is your goal!).  
+
+For now, we are going to focus on a few exsisting packages that I find useful so we can get to the analysis.  If you are interested in learning how to do it yourself, looking at the guts
+of these packages is also a great starting point!
+
+# Python Tools
+
+`pybaseball` is a great package for collecting baseball data. Along with statcast data, `pybaseball` can collect data from fangraphs and baseball reference.
+
+Check out more info here:
+[https://github.com/jldbc/pybaseball](https://github.com/jldbc/pybaseball)
+
+```{r eval=FALSE, include=FALSE}
+/home/rstudio/.local/share/r-miniconda/envs/pandas/bin/pip install pybaseball
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+reticulate::use_python("/home/rstudio/.local/share/r-miniconda/envs/pandas/bin/python",required = TRUE)
+```
+
+
+```{r include=FALSE}
+library(reticulate)
+conda_list()
+use_condaenv("pandas")
+```
+
+```{bash include=TRUE, eval = FALSE}
+pip install pybaseball
+```
+
+To get pitching data for a particular player, use `playerid_lookup` and then `statcast_pitcher`.
+
+```{python}
+import pandas as pd
+from pybaseball import statcast
+from pybaseball import playerid_lookup
+from pybaseball import statcast_pitcher
+
+player_id = playerid_lookup('Chapman', 'Aroldis')
+player_id
+
+```
+```{python}
+pid = player_id.key_mlbam[0]
+print(pid)
+chapman_stats = statcast_pitcher('2015-03-01','2021-10-01',pid)
+```
+
+```{python}
+chapman_stats.columns
+```
+
+# Save the Data
+
+I have found that an incredibly important step when collecting data is to 
+save an untransformed version before conducting any analysis.  It is much faster to work with locally stored data than to recollect every time you want to test your ETL pipeline.
+
+So, our last step here is to save the data.
+
+```{python}
+chapman_stats.to_csv("./chapman_20150301-20211001.csv")
+```
+
+## Next Steps
+
+In the next article, we will explore working with Statcast Data.
+

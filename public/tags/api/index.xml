@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>API on Nick Paul&#39;s Blog</title>
-    <link>http://www.nickpaul.info/tags/api/</link>
+    <link>/tags/api/</link>
     <description>Recent content in API on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/tags/api/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/api/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>NHL API - Collect Career Stats</title>
-      <link>http://www.nickpaul.info/post/2021-12-03-nhl-api-single-season-stats/</link>
+      <link>/post/2021-12-03-nhl-api-single-season-stats/</link>
       <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-12-03-nhl-api-single-season-stats/</guid>
+      <guid>/post/2021-12-03-nhl-api-single-season-stats/</guid>
       <description>Import Libraries Find Player ID Collect Data  The NHL has an unpublished API that makes grabbing stats pretty painless. In this post we will walk through how to grab year-by-year stats for a particular player using python.
 Import Libraries To get started, we will import the following libraries:
  requests - Conduct the API call json - Convert the returned data to a python list pandas - Conduct data manipulation  import requests import json import pandas as pd  Find Player ID To collect player data from the NHL API, we first need their player ID, which can be found using the NHL’s suggest end point.</description>

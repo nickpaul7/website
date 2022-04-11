@@ -10,8 +10,8 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg">
-    <meta property="twitter:image" content="http://www.nickpaul.info/img/home-bg-jeep.jpg" />
+    <meta property="og:image" content="/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="/img/home-bg-jeep.jpg" />
     
 
     
@@ -269,7 +269,7 @@ glimpse(df_ny_raw)</code></pre>
 <pre class="r"><code>df_ny_raw %&gt;% 
     ggplot(aes(x = date, y = cases)) +
     geom_line()</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>In order to get the case count for each day, we need to take the difference between the current date and the previous date. We can do this using the <code>lag()</code> function from <code>dplyr</code>.</p>
 <pre class="r"><code>df_ny = df_ny_raw %&gt;% 
     mutate(cases = cases - lag(cases,
@@ -278,7 +278,7 @@ glimpse(df_ny_raw)</code></pre>
 df_ny %&gt;% 
     ggplot(aes(x = date, y = cases)) +
     geom_line()</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>We now have cases-per-day, but our line is not as smooth as the NYT chart above. The NYT uses a smoothed 7-day average in order to minimize the day-to-day variability and highlight the longer-term trends.</p>
 <p>To create the 7-day average, we will sum the case counts from the current day and the previous 6 days and divide by 7.</p>
 <pre class="r"><code>df_ny_smooth = df_ny %&gt;% 
@@ -329,7 +329,7 @@ df_ny_smooth</code></pre>
     geom_area(fill = &quot;red&quot;, alpha = .25)
 
 plot_nyt</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="update-the-theme" class="section level2">
 <h2>Update the Theme</h2>
@@ -347,7 +347,7 @@ theme(
           axis.line.x = element_line(colour = &quot;light grey&quot;, linetype = &quot;solid&quot;,
                                      size = .5))
 plot_nyt</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="adjust-the-scales" class="section level2">
 <h2>Adjust the Scales</h2>
@@ -364,7 +364,7 @@ plot_nyt &lt;- plot_nyt +
          x = NULL,
          title = &quot;New Reported Cases: New York&quot;)
 plot_nyt</code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="add-annotations" class="section level2">
 <h2>Add Annotations</h2>
@@ -395,7 +395,7 @@ label_vals </code></pre>
              y = label_vals$smooth, 
              yend = label_vals$smooth * 1.2,
              size = .25) </code></pre>
-<p><img src="http://www.nickpaul.info/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="/post/2022-01-27-nyt-plots/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>There you have it, a quality chart worthy of publication in the New York Times. This example should be easy to adapt to any similar time-series data you might have. Good luck!</p>
 </div>
 

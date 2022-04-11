@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Statcast on Nick Paul&#39;s Blog</title>
-    <link>http://www.nickpaul.info/tags/statcast/</link>
+    <link>/tags/statcast/</link>
     <description>Recent content in Statcast on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/tags/statcast/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/statcast/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Collect Statcast Pitching Data</title>
-      <link>http://www.nickpaul.info/post/2021-09-20-statcast/</link>
+      <link>/post/2021-09-20-statcast/</link>
       <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-09-20-statcast/</guid>
+      <guid>/post/2021-09-20-statcast/</guid>
       <description>Intro Advice Collect Pitcher Data Next Steps  Intro to Statcast Data This post will serve as a short introduction to collecting statcast data.
  Focus on the Task When I first started collecting sports data, I built a number of homemade packages in R and python, which was a great learning experience - my package development, web scraping and API interaction skills all leveled up. There was, however, alot more time dedicated to collecting the data than actually analyzing the data.</description>
     </item>

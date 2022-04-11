@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bokeh on Nick Paul&#39;s Blog</title>
-    <link>http://www.nickpaul.info/tags/bokeh/</link>
+    <link>/tags/bokeh/</link>
     <description>Recent content in bokeh on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 13 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/tags/bokeh/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 13 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/bokeh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Collecting Historical Weather Data</title>
-      <link>http://www.nickpaul.info/post/2022-01-13-weather-intro/</link>
+      <link>/post/2022-01-13-weather-intro/</link>
       <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2022-01-13-weather-intro/</guid>
+      <guid>/post/2022-01-13-weather-intro/</guid>
       <description>Introudction Pull the Data Transform the Data Find Something of Interest Model the Data Visualize the Results Conclusion  Introduction I was recently exploring different options to collect historical weather data for an NFL model I am working on and found there is no shortage of weather API options, including many paid services that want to sell you their product.
 Given that US Government collects a lot of the commercial weather data, I was hoping to find a free option.</description>
     </item>
     
     <item>
       <title>Ovi will Break the Great One&#39;s Goal Record</title>
-      <link>http://www.nickpaul.info/post/2021-11-22-great8/</link>
+      <link>/post/2021-11-22-great8/</link>
       <pubDate>Mon, 22 Nov 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-11-22-great8/</guid>
+      <guid>/post/2021-11-22-great8/</guid>
       <description>Goals per Season Refusing to Age Career Goals Through the Years Historic Goals by Age Ovi Projections  Ovi will Break the Great One’s Goal Record Alexander Ovechkin is the first player to have a legitimate chance at breaking the NHL goal record since Wayne Gretzky retired. And while some are saying he has chance, he is 36 and was 164 goals away from 894 when the 2021-2022 season started.</description>
     </item>
     
     <item>
       <title>Intro to Statcast Pitching Data</title>
-      <link>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</link>
+      <link>/post/2021-09-21-statcast-pitching-data/</link>
       <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</guid>
+      <guid>/post/2021-09-21-statcast-pitching-data/</guid>
       <description>Pitching Data Pitch Type Pitch Location Result  Statcast Pitching Data This post explores some of the statcast pitching dimensions and highlights some interesting ways to visualize the data.
 Pitch Type To get started, we will import a data set we collected in a previous post, which contains Aroldis Chapman’s pitch data from 2015-2021.
 df_chapman = readr::read_csv(&amp;quot;./chapman_20150301-20211001.csv&amp;quot;) Let’s start by identifying Chapman’s favortie ptich.

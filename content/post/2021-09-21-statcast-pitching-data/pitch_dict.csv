@@ -1,0 +1,20 @@
+pitch_type,pitch_name
+CH,Changeup
+CU,Curveball
+FC,Cutter
+EP,Eephus
+FO,Forkball
+FF,Four-Seam Fastball
+KN,Knuckleball
+KC,Knuckle-curve
+SC,Screwball
+SI,Sinker
+SL,Slider
+FS,Splitter
+FT,Two-Seam Fastball
+IN,Intentional Ball
+AS,Automatic Strike
+GY,Gyroball
+NP,No Pitch
+PO,Pitchout
+UN,Unknown

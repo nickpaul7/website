@@ -1,0 +1,177 @@
+---
+title: NHL API - Collect Rosters
+author: ' Nick Paul'
+date: '2021-12-07'
+slug: []
+categories: ['Data-Collection']
+tags: ['python', 'NHL']
+subtitle: ''
+description: 'In this post we will explore collecting NHL roster data.'
+image: ''
+---
+
+1. [Import Libraries](#import-libs)
+1. [Collect Team Info](#collect-team-info)
+1. [Collect Roster](#collect-roster)
+1. [Collect Career Stats](#collect-career-stats)
+1. [Collect All Players in a Season](#collect-all-players-in-a-season)
+
+In this post we will explore how to get roster data for each NHL team. We will then look at how to get career stats for each player on a particular roster. Finally, we will get career stats for all players from a particular season.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+reticulate::use_python("/home/rstudio/.local/share/r-miniconda/envs/pandas/bin/python",required = TRUE)
+```
+
+
+```{r include=FALSE}
+library(reticulate)
+use_condaenv("pandas")
+```
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Import Libraries
+
+```{python}
+import requests
+import json
+import pandas as pd
+```
+
+## Collect Team Info
+
+The first step is to collect data about NHL teams. This will allow us to focus on active NHL teams.
+
+```{python}
+
+teams_url = "https://statsapi.web.nhl.com/api/v1/teams"
+team_response = requests.get(teams_url)
+
+team_content = json.loads(team_response.content)
+df_teams = pd.json_normalize(team_content['teams'],
+sep = "_")
+
+df_teams.info()
+```
+
+## Collect Roster
+
+Next, we create a function to get a team roster for a particular season.
+
+
+```{python}
+df_teams['link'] = 'https://statsapi.web.nhl.com' + df_teams['link']
+df_active = df_teams.loc[df_teams['active']==True]
+
+def get_team_roster(team, season):
+
+    base_url = df_active.loc[df_active['name']==team]['link'].iloc[0]
+    print(base_url)
+    url = base_url + "/roster/" + "?season=" + season
+    
+    response = requests.get(url)
+    roster = response.json()["roster"]
+    
+    df_roster = pd.json_normalize(roster, sep = "_").astype(str)
+
+    return df_roster
+    
+df_roster = get_team_roster("New York Rangers", '20192020')
+df_roster
+```
+
+## Collect Career Stats
+
+Now that we have player IDs for each player on a team, lets create a function that gets year-by-year stats for a particular player.
+
+```{python}
+from datetime import datetime
+import numpy as np
+
+def get_career_stats(player_id):
+
+      
+    url = 'https://statsapi.web.nhl.com/api/v1/people/' + player_id + '/stats/?stats=yearByYear'
+    response = requests.get(url)
+    content = json.loads(response.content)['stats']
+    splits = content[0]['splits']
+
+    df_splits = (pd.json_normalize(splits, sep = "_" )
+             .query('league_name == "National Hockey League"')
+            )
+    if df_splits.shape[0] > 0 :
+    
+        url_info = 'https://statsapi.web.nhl.com/api/v1/people/' + player_id
+        response = requests.get(url_info)
+        player_info = json.loads(response.content)['people'][0]
+
+        if player_info['primaryPosition']['code'] != "G":
+            df_splits['goals_per_game']=  df_splits['stat_goals']/df_splits['stat_games']
+        df_splits['player_id'] = player_id
+        df_splits['first_name'] = player_info['firstName']
+        df_splits['last_name'] = player_info['lastName']
+        df_splits['bday'] = pd.to_datetime(player_info['birthDate'])
+        df_splits['season_end_yr'] = [x[4:8] for x in df_splits['season']]
+        df_splits['season_start_yr'] = [x[0:4] for x in df_splits['season']]
+        df_splits['season_start_dt'] =  [datetime.strptime(x + '0930', "%Y%m%d") for x in df_splits['season_start_yr']] 
+        df_splits['age'] = (np.floor((df_splits['season_start_dt'] - df_splits['bday'])/ np.timedelta64(1,'Y') ))
+        df_splits['age'] = df_splits['age'].astype(int)
+    
+    return df_splits
+    
+get_career_stats(player_id = '8478402')
+```
+
+
+
+
+Now we can loop over the player ids from a roster and collect year-by-year stats for each player.
+
+```{python}
+stats = []
+for player_id in df_roster['person_id']:
+    df = get_career_stats(player_id)
+    stats.append(df)
+df_all = pd.concat(stats)
+df_all
+```
+
+## Collect All Players in a Season
+
+Next, we can loop over every team and collect rosters for all active teams from a particular seaason.
+
+```{python}
+rosters = []
+season = '20212022'
+for team in df_active['name']:
+    df_roster = get_team_roster(team, season)
+    rosters.append(df_roster)
+
+df_all_rosters = pd.concat(rosters)
+df_all_rosters
+```
+
+Finally, we can loop over all players to get year-by-year stats for all players during a particular seasn.
+
+```{python, eval = FALSE}
+stats = []
+for player_id in df_all_rosters['person_id']:
+    print(player_id)
+    df = get_career_stats(player_id)
+    stats.append(df)
+
+df_all_stats = pd.concat(stats)
+df_all_stats
+```
+
+
+
+```{python, eval = FALSE}
+df_all_stats.to_csv("nhl_20212022_career_stats.csv")
+```
+

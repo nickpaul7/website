@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Data-Visualization on Nick Paul&#39;s Blog</title>
-    <link>http://www.nickpaul.info/categories/data-visualization/</link>
+    <link>/categories/data-visualization/</link>
     <description>Recent content in Data-Visualization on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 27 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/categories/data-visualization/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="/categories/data-visualization/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Advanced Data Visualization with R and ggplot2: Recreating the New York Times COVID Tracker</title>
-      <link>http://www.nickpaul.info/post/2022-01-27-nyt-plots/</link>
+      <link>/post/2022-01-27-nyt-plots/</link>
       <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2022-01-27-nyt-plots/</guid>
+      <guid>/post/2022-01-27-nyt-plots/</guid>
       <description>In a previous article, I mentioned the need to find mentors to enhance your ability to create clear, concise, and meaningful data visualizations. The New York Times is one example I highly recommend you follow. They do an excellent job of creating information rich charts that are understandable to a wide variety of people. One example is their COVID 19 tacker.
 NYT New York COVID Tracker
  You may be thinking, sure, that chart looks great, but I have no idea how to create something like this.</description>
@@ -20,19 +20,19 @@ NYT New York COVID Tracker
     
     <item>
       <title>6 Data Visualization Fundamentals Every Data Scientist Needs to Know</title>
-      <link>http://www.nickpaul.info/post/2022-01-25-data-viz/</link>
+      <link>/post/2022-01-25-data-viz/</link>
       <pubDate>Tue, 25 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2022-01-25-data-viz/</guid>
+      <guid>/post/2022-01-25-data-viz/</guid>
       <description>Introudction Understand the Power of Data Viz Start With the Big Picture Design With Your Audience in Mind Focus On Details Find Mentors Practice  Introduction Whether you are just starting out on your data science journey or been in the game for a while, there is never a shortage of things to learn or skills to pickup. One must-have skill all data scientist need in their toolkit is the ability to create clear, concise, and meaningful Data Visualizations.</description>
     </item>
     
     <item>
       <title>Intro to Statcast Pitching Data</title>
-      <link>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</link>
+      <link>/post/2021-09-21-statcast-pitching-data/</link>
       <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/post/2021-09-21-statcast-pitching-data/</guid>
+      <guid>/post/2021-09-21-statcast-pitching-data/</guid>
       <description>Pitching Data Pitch Type Pitch Location Result  Statcast Pitching Data This post explores some of the statcast pitching dimensions and highlights some interesting ways to visualize the data.
 Pitch Type To get started, we will import a data set we collected in a previous post, which contains Aroldis Chapman’s pitch data from 2015-2021.
 df_chapman = readr::read_csv(&amp;quot;./chapman_20150301-20211001.csv&amp;quot;) Let’s start by identifying Chapman’s favortie ptich.

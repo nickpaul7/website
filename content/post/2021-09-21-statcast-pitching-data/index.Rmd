@@ -1,0 +1,351 @@
+---
+title: "Intro to Statcast Pitching Data"
+author: ' Nick Paul'
+date: '2021-09-21'
+description: Short tutorial introducing the different dimensions of Statcast pitching
+  data
+image: ''
+slug: []
+subtitle: ''
+tags:
+- Python
+- MLB
+- Pandas
+- bokeh
+- ggplot2
+- R
+categories: ['Data-Visualization']
+---
+
+1. [Pitching Data](#columns)
+2. [Pitch Type](#pitch-type)
+3. [Pitch Location](#pitch-location)
+4. [Result](#result)
+
+# Statcast Pitching Data
+
+This post explores some of the statcast pitching dimensions and highlights some interesting ways to visualize the data.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+reticulate::use_python("/home/rstudio/.local/share/r-miniconda/envs/pandas/bin/python",required = TRUE)
+```
+
+
+```{r include=FALSE}
+library(reticulate)
+use_condaenv("pandas")
+```
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Pitch Type
+
+To get started, we will import a data set we collected in a previous [post](http://www.nickpaul.info/post/2021-09-20-statcast/), which contains Aroldis Chapman's pitch data from 2015-2021.
+
+```{r}
+df_chapman = readr::read_csv("./chapman_20150301-20211001.csv")
+```
+
+Let's start by identifying Chapman's favortie ptich.
+
+```{r, include = FALSE, echo=FALSE}
+
+library(tidyverse)
+
+pitch_dict = "Changeup (CH)
+Curveball (CU)
+Cutter (FC)
+Eephus (EP)
+Forkball (FO)
+Four-Seam Fastball (FF)
+Knuckleball (KN)
+Knuckle-curve (KC)
+Screwball (SC)
+Sinker (SI)
+Slider (SL)
+Splitter (FS)
+Two-Seam Fastball (FT)
+Intentional Ball (IN)"
+
+pitches2 = "AS Automatic Strike
+CH Change-up
+CU Curveball
+EP Eephus
+FC Cutter
+FF Four-Seam Fastball
+FO Forkball
+FS Splitter
+FT Two-Seam Fastball (synonymous with SI)
+GY Gyroball
+IN Intentional Ball
+KC Knuckle Curve
+KN Knuckleball
+NP No Pitch
+PO Pitchout
+SC Screwball
+SI Sinker (synonymous with FT)
+SL Slider
+UN Unknown"
+
+pitches2 = stringr::str_split(pitches2,"\n")[[1]] 
+
+key2 = str_extract(pitches2,"[A-Z]{2}")
+key2
+
+pitch_name2 = str_extract(pitches2,"(?<=[A-Z]{2} ).+")
+pitch_name2
+
+df_pitch_ref2 = tibble::tibble(pitch_type=key2, pitch_name=pitch_name2)
+
+
+pitches = stringr::str_split(pitch_dict,"\n")[[1]] 
+key = str_extract(pitches,"(?<=\\()\\w{2}(?=\\))")
+key
+pitch_name = str_extract(pitches,"[\\w- ]+(?= \\()")
+pitch_name
+df_pitch_ref = tibble::tibble(pitch_type=key, pitch_name) %>% 
+    bind_rows(df_pitch_ref2) %>%
+    distinct(pitch_type,.keep_all = TRUE)
+
+df_pitch_ref
+write_csv(df_pitch_ref,"./pitch_dict.csv")    
+# %>% str_split("\\(")
+
+```
+
+
+```{python, results='hide'}
+from bokeh.io import output_file, show, save
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource
+import pandas as pd
+
+df_chapman = pd.read_csv("./chapman_20150301-20211001.csv")
+df_pitch_lookup = pd.read_csv("./pitch_dict.csv").set_index("pitch_type")
+
+df_pitch_count = (df_chapman
+                    .groupby('pitch_type')
+                    [['pitch_type']]
+                    .size()
+                    .sort_values(ascending = True)
+                    .to_frame("count")
+                    .reset_index()
+                    .join(df_pitch_lookup, on = "pitch_type")
+                    .assign(percent = lambda df: 100*df['count']/df['count'].sum()))
+
+print(df_pitch_count)
+
+source = ColumnDataSource(df_pitch_count)
+
+TOOLTIPS = [("Percent","@percent{0.2f} %")]
+
+p = figure(y_range = df_pitch_count.pitch_name,
+            tooltips = TOOLTIPS,
+            title = "Aroldis Chapman Pitch Types: 2015-2021")
+p.hbar(y="pitch_name", right = "count", source = source, height = .7)
+
+p.x_range.start = 0
+p.outline_line_color = None
+p.grid.grid_line_color = None
+p.xaxis.minor_tick_line_color = None
+p.yaxis.major_tick_line_color = None
+p.yaxis.axis_line_color = None
+
+output_file("pitch_count.html")
+
+save(p)
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+htmltools::includeHTML("./pitch_count.html")
+```
+
+Next, we can analyze if his pitch preference has changed over time.
+
+```{python, results='hide'}
+
+from bokeh.palettes import all_palettes
+
+pal = all_palettes['Category10']
+# print(pal)
+
+df_chapman[['game_date']].dtypes
+
+
+
+
+df_pt_gd = ( df_chapman[['game_date','pitch_type', 'pitch_name']]
+        .groupby(['game_date','pitch_type', 'pitch_name'])
+        .size()
+        .to_frame('count')
+        .reset_index()
+        .assign(game_date = lambda df: pd.to_datetime(df['game_date']))
+        .assign(year = lambda df: df.game_date.dt.year)
+        .groupby(['year','pitch_type', 'pitch_name'])
+        .agg({'count':'sum'})
+        .reset_index()
+        .assign(total = lambda df: df.groupby('year')['count'].transform('sum'))
+        .assign(percent = lambda df: (df['count']/df['total'])*100)
+)
+
+# df_pt_gd.info
+
+
+pitch_types = df_pt_gd['pitch_type'].drop_duplicates().to_list()
+# print(pitch_types)
+num_pitch_types = len(pitch_types)
+pal = pal[num_pitch_types]
+# print(pal[0])
+
+pal = {'CH':'green',
+       'FF':'red',
+       'FT':'orange',
+       'SL':'yellow',
+       'FS':'blue',
+       'SI':'orange'}
+
+print(pal)
+['CH', 'FF', 'FT', 'IN', 'SL', 'SI', 'FS']
+
+TOOLTIPS = [
+("Pitch Type","@pitch_name"),
+("Year", "@year"),
+("Percent","@percent{0.2f} %")]
+
+p = figure(width=1000,
+tooltips = TOOLTIPS,
+title = "Aroldis Chapman Pitch % by Season"
+# x_axis_type = "datetime"
+)
+print(pal['CH'])
+
+for count, value in enumerate(pitch_types):
+    print(count)
+    print(value)
+    print(pal.get(value))
+    pitch_name = df_pt_gd[df_pt_gd['pitch_type'] == value]['pitch_name'].drop_duplicates().to_list()[0]
+    print(pitch_name)
+    source = ColumnDataSource(df_pt_gd[df_pt_gd['pitch_type'] == value])
+    p.line('year','percent', color = pal.get(value), source= source, width = 2,
+    legend_label = pitch_name)
+    p.circle('year','percent', color = pal.get(value), source= source)
+    
+
+
+p.xgrid.grid_line_color = None
+p.xaxis.axis_line_color = None
+p.xaxis.minor_tick_line_color = None
+p.xaxis.major_tick_line_color = 'grey'
+
+p.yaxis.axis_line_color = None
+p.yaxis.minor_tick_line_color = None
+p.yaxis.major_tick_line_color = None
+p.y_range.start = 0
+
+p.yaxis.ticker = [25, 50, 75]
+p.outline_line_color = None
+p.add_layout(p.legend[0], 'right')
+p.legend.border_line_color = None
+
+
+output_file("pitch_count_by_date.html")
+
+save(p)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+htmltools::includeHTML("./pitch_count_by_date.html")
+```
+
+
+## Pitch Location
+
+Let's now look at his location by pitch type over time and see if anything has changed.
+
+```{r}
+avg_zone <- df_chapman %>% 
+  summarise(sz_top = mean(sz_top, na.rm = TRUE),
+            sz_bot = mean(sz_bot, na.rm = TRUE))
+
+
+
+df_chapman %>% 
+  # count(plate_x, plate_z) %>% 
+  # filter(!is.na(plate_x)) %>% 
+  group_by(pitch_type, game_year) %>% 
+  mutate(count = n()) %>% 
+  ungroup() %>% 
+  filter(count > 15) %>% 
+  filter(pitch_type %in% c('CH','FF', 'FS', 'SI', 'SL')) %>% 
+  # arrange(desc(n)) %>% 
+  ggplot(aes(x = plate_x, y = plate_z)) +
+  geom_hex(bins = 10) +
+  # stat_density_2d(aes(fill = ..level..), geom = "polygon") +
+  # geom_density_2d() +
+  geom_rect(aes(xmin = -.83 , xmax = .83, ymin = avg_zone$sz_bot, ymax =      avg_zone$sz_top),color = 'black', alpha = 0) +
+  # stat_bin_hex(bins = 10) +
+  scale_fill_continuous(type = "viridis") +
+  ylim(c(1,4)) +
+  facet_grid(game_year ~ pitch_type) +
+  theme_bw()
+
+```
+
+
+
+
+## Results
+
+We will now build a few charts to analyze the results of his pitches.
+
+```{r}
+df_chapman %>%
+  filter(!is.na(events)) %>% 
+  count(events) %>% 
+  arrange(desc(n)) %>% 
+  mutate(events = fct_reorder(events, n, .desc = FALSE)) %>% 
+  ggplot(aes(x = events,  y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Aroldis Chapman Event Types")
+```
+
+From the chart above, we can see Chapman is a strikeout pitcher.
+
+Let's see if Chapman's events have changed over time.
+
+```{r}
+df_games <- df_chapman %>% 
+  distinct(game_date) %>% 
+  mutate(year = lubridate::year(game_date)) %>% 
+  count(year) %>% 
+  mutate(games = n) %>% 
+  select(year, games)
+  
+
+df_chapman %>%
+  left_join(df_games, by = c("game_year" = "year")) %>% 
+  filter(!is.na(events)) %>% 
+  count(events, game_year, games) %>% 
+  group_by(events) %>% 
+  mutate(total_events = sum(n)) %>% 
+  filter(total_events > 20) %>%
+  ungroup() %>% 
+  arrange(desc(n)) %>% 
+  mutate(events = fct_reorder(events, n, .desc = FALSE)) %>% 
+  mutate(per_game = n/games) %>% 
+  ggplot(aes(x = game_year,  y = per_game, color = events)) +
+  geom_line() +
+  labs(title = "Aroldis Chapman Event Types") +
+  facet_wrap(~events, scales = "free")
+```
+
+
+From this chart, we can see Chapman is trending up in home runs, walks, doubles, and down in force_outs, strikeouts, and force outs, which is not what you want from your closer.

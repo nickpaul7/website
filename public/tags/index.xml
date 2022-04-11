@@ -2,89 +2,89 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Nick Paul&#39;s Blog</title>
-    <link>http://www.nickpaul.info/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Nick Paul&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://www.nickpaul.info/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>R</title>
-      <link>http://www.nickpaul.info/tags/r/</link>
+      <link>/tags/r/</link>
       <pubDate>Tue, 01 Feb 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/r/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ggplot2</title>
-      <link>http://www.nickpaul.info/tags/ggplot2/</link>
+      <link>/tags/ggplot2/</link>
       <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/ggplot2/</guid>
+      <guid>/tags/ggplot2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bokeh</title>
-      <link>http://www.nickpaul.info/tags/bokeh/</link>
+      <link>/tags/bokeh/</link>
       <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/bokeh/</guid>
+      <guid>/tags/bokeh/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>http://www.nickpaul.info/tags/python/</link>
+      <link>/tags/python/</link>
       <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/python/</guid>
+      <guid>/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>NHL</title>
-      <link>http://www.nickpaul.info/tags/nhl/</link>
+      <link>/tags/nhl/</link>
       <pubDate>Tue, 07 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/nhl/</guid>
+      <guid>/tags/nhl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>API</title>
-      <link>http://www.nickpaul.info/tags/api/</link>
+      <link>/tags/api/</link>
       <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/api/</guid>
+      <guid>/tags/api/</guid>
       <description></description>
     </item>
     
     <item>
       <title>MLB</title>
-      <link>http://www.nickpaul.info/tags/mlb/</link>
+      <link>/tags/mlb/</link>
       <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/mlb/</guid>
+      <guid>/tags/mlb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Pandas</title>
-      <link>http://www.nickpaul.info/tags/pandas/</link>
+      <link>/tags/pandas/</link>
       <pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/pandas/</guid>
+      <guid>/tags/pandas/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Statcast</title>
-      <link>http://www.nickpaul.info/tags/statcast/</link>
+      <link>/tags/statcast/</link>
       <pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>http://www.nickpaul.info/tags/statcast/</guid>
+      <guid>/tags/statcast/</guid>
       <description></description>
     </item>
     

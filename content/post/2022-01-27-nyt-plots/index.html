@@ -1,0 +1,185 @@
+---
+title: "Advanced Data Visualization with R and ggplot2: Recreating the New York Times COVID Tracker"
+author: ' Nick Paul'
+date: '2022-01-27'
+slug: []
+categories: ['Data Visualization']
+tags: ['R', 'ggplot2']
+subtitle: ''
+description: 'The New York Times often produces excellent data visualizations. In the post we explore how to recreate their COVID tracker with R and ggplot2.'
+image: ''
+---
+
+
+
+<p>In a previous <a href="https://medium.com/@nickryanpaul/6-data-visualization-fundamentals-every-data-scientist-needs-to-know-d6cca4a33985">article</a>, I mentioned the need to find mentors to enhance your ability to create clear, concise, and meaningful data visualizations. The New York Times is one example I highly recommend you follow. They do an excellent job of creating information rich charts that are understandable to a wide variety of people. One example is their COVID 19 tacker.</p>
+<div class="figure">
+<img src="nyt_covid_tracker.png" alt="NYT New York COVID Tracker" />
+<p class="caption">NYT New York COVID Tracker</p>
+</div>
+<p>You may be thinking, sure, that chart looks great, but I have no idea how to create something like this. Well, you are in luck. I am going recreate their COVID tracker using <code>R</code> and <code>ggplot2</code>. Since I am using <code>ggplot2</code>, it will not be interactive like their chart, but, the interaction feature on this particular chart does not add much value and depending on the resources available to you, it is often easier to distribute static charts to your consumers, especially if your work is required to go into a PowerPoint.</p>
+<p>We will start by loading the libraries needed for this project.</p>
+<pre class="r"><code>library(dplyr)
+library(readr)
+library(ggplot2)</code></pre>
+<div id="import-data" class="section level2">
+<h2>Import Data</h2>
+<p>Next, we need to grab the data. Luckily, the NYT posts their COVID data on github.</p>
+<pre class="r"><code>url &lt;- &quot;https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv&quot;
+df_states &lt;- readr::read_csv(url)
+glimpse(df_states)</code></pre>
+<pre><code>## Observations: 38,702
+## Variables: 5
+## $ date   &lt;date&gt; 2020-01-21, 2020-01-22, 2020-01-23, 2020-01-24, 2020-01-24, 2…
+## $ state  &lt;chr&gt; &quot;Washington&quot;, &quot;Washington&quot;, &quot;Washington&quot;, &quot;Illinois&quot;, &quot;Washing…
+## $ fips   &lt;chr&gt; &quot;53&quot;, &quot;53&quot;, &quot;53&quot;, &quot;17&quot;, &quot;53&quot;, &quot;06&quot;, &quot;17&quot;, &quot;53&quot;, &quot;04&quot;, &quot;06&quot;, &quot;1…
+## $ cases  &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1,…
+## $ deaths &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</code></pre>
+</div>
+<div id="transform-the-data" class="section level2">
+<h2>Transform the Data</h2>
+<p>This data set has the cumulative cases and deaths on a given day for each state. To simplify the process, we will start with one state: New York.</p>
+<pre class="r"><code>df_ny_raw &lt;- df_states %&gt;% 
+    filter(state == &quot;New York&quot;) 
+
+glimpse(df_ny_raw)</code></pre>
+<pre><code>## Observations: 703
+## Variables: 5
+## $ date   &lt;date&gt; 2020-03-01, 2020-03-02, 2020-03-03, 2020-03-04, 2020-03-05, 2…
+## $ state  &lt;chr&gt; &quot;New York&quot;, &quot;New York&quot;, &quot;New York&quot;, &quot;New York&quot;, &quot;New York&quot;, &quot;N…
+## $ fips   &lt;chr&gt; &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;36&quot;, &quot;3…
+## $ cases  &lt;dbl&gt; 1, 1, 2, 11, 22, 44, 89, 106, 142, 173, 217, 326, 421, 610, 73…
+## $ deaths &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 6, 10, 18, 32, 39, 6…</code></pre>
+<p>As you can see below, the <code>cases</code> column has the cumulative cases up to that date.</p>
+<pre class="r"><code>df_ny_raw %&gt;% 
+    ggplot(aes(x = date, y = cases)) +
+    geom_line()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>In order to get the case count for each day, we need to take the difference between the current date and the previous date. We can do this using the <code>lag()</code> function from <code>dplyr</code>.</p>
+<pre class="r"><code>df_ny = df_ny_raw %&gt;% 
+    mutate(cases = cases - lag(cases,
+                               default = 0))
+
+df_ny %&gt;% 
+    ggplot(aes(x = date, y = cases)) +
+    geom_line()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>We now have cases-per-day, but our line is not as smooth as the NYT chart above. The NYT uses a smoothed 7-day average in order to minimize the day-to-day variability and highlight the longer-term trends.</p>
+<p>To create the 7-day average, we will sum the case counts from the current day and the previous 6 days and divide by 7.</p>
+<pre class="r"><code>df_ny_smooth = df_ny %&gt;% 
+    mutate(smooth = sum(cases, 
+                        lag(cases, 1), lag(cases, 2), 
+                        lag(cases, 3), lag(cases, 4),
+                        lag(cases, 5), lag(cases, 6))
+                    /7)</code></pre>
+<p>If we want to save some typing and make it easy to repeat this process, we could write a custom function to complete the same goal.</p>
+<pre class="r"><code>rolling_average &lt;- function(x, period = 7){
+    
+    total = x
+    
+    for(i in 1:period-1){
+        total = total + lag(x,i)
+    }
+    
+    return(total/period)
+    
+}
+
+df_ny_smooth = df_ny %&gt;% 
+    mutate(smooth = rolling_average(cases))
+
+df_ny_smooth</code></pre>
+<pre><code>## # A tibble: 703 x 6
+##    date       state    fips  cases deaths smooth
+##    &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 2020-03-01 New York 36        1      0   NA  
+##  2 2020-03-02 New York 36        0      0   NA  
+##  3 2020-03-03 New York 36        1      0   NA  
+##  4 2020-03-04 New York 36        9      0   NA  
+##  5 2020-03-05 New York 36       11      0   NA  
+##  6 2020-03-06 New York 36       22      0   NA  
+##  7 2020-03-07 New York 36       45      0   19.1
+##  8 2020-03-08 New York 36       17      0   17.4
+##  9 2020-03-09 New York 36       36      0   25.3
+## 10 2020-03-10 New York 36       31      0   28.9
+## # … with 693 more rows</code></pre>
+<p>Now that the data is ready, we will build the chart in layers.</p>
+</div>
+<div id="basic-chart" class="section level2">
+<h2>Basic Chart</h2>
+<pre class="r"><code>plot_nyt &lt;- df_ny_smooth %&gt;% 
+    filter(!is.na(smooth)) %&gt;% 
+    ggplot(aes(x = date, y = smooth)) +
+    geom_line(color = &quot;red&quot;) + 
+    geom_area(fill = &quot;red&quot;, alpha = .25)
+
+plot_nyt</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="update-the-theme" class="section level2">
+<h2>Update the Theme</h2>
+<pre class="r"><code>plot_nyt &lt;- plot_nyt +
+theme(
+          panel.background = element_blank(),    
+          axis.text.y = element_text(angle = 0, vjust = -.5, 
+                                     margin = margin(r = -30)),
+          panel.grid.minor = element_blank(),
+          panel.grid.major.x = element_blank(),
+          panel.grid.major.y = element_line(colour = &#39;light grey&#39;, 
+                                          linetype = &#39;dashed&#39;,size = .35),
+          axis.ticks.x = element_line(color = &quot;light grey&quot;),
+          axis.ticks.y = element_blank(),
+          axis.line.x = element_line(colour = &quot;light grey&quot;, linetype = &quot;solid&quot;,
+                                     size = .5))
+plot_nyt</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="adjust-the-scales" class="section level2">
+<h2>Adjust the Scales</h2>
+<pre class="r"><code>breaks &lt;- scales::extended_breaks()(df_ny_smooth$smooth)
+breaks &lt;- breaks[2:length(breaks)]
+
+plot_nyt &lt;- plot_nyt +
+    scale_x_date(expand = c(0,0),
+                 date_labels = &quot;%b-%Y&quot;) +
+    scale_y_continuous(expand = c(0,0),
+                       breaks = breaks,
+                       limits = c(0,max(df_ny_smooth$smooth))) +
+    labs(y = NULL,
+         x = NULL,
+         title = &quot;New Reported Cases: New York&quot;)
+plot_nyt</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="add-annotations" class="section level2">
+<h2>Add Annotations</h2>
+<p>Annotations really take your chart to the next level. They are a great way to add context to your chart and tell a story. For this example, we will add text and a line segment to describe what data represents. Annotating the smoothed line directly, as opposed to adding a legend, is a great way to save space on your chart. Also, the user does not have to hunt for the information because it is dead center in the chart!</p>
+<p>If you look closely, you will notice the NYT uses logic to put their annotation toward the middle of the chart but always on the apex of curve (look at different examples of the states to see this in action). This is a nice touch that really gives their charts that extra wow factor.</p>
+<p>Below is a way to recreate their process. We simply take a slice from the center of the chart (120 day period) and find the maximum point on the smooth line. We will then add our annotations off this reference point.</p>
+<pre class="r"><code>max_date = df_ny$date %&gt;% median() + 60
+min_date = df_ny$date %&gt;% median() - 60
+
+label_vals = df_ny_smooth %&gt;% 
+    filter(date &gt; min_date, date &lt; max_date) %&gt;% 
+    arrange(desc(smooth)) %&gt;% 
+    top_n(1)
+
+label_vals </code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   date       state    fips  cases deaths smooth
+##   &lt;date&gt;     &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 2021-01-12 New York 36    14791  39588 18725.</code></pre>
+<p>Now that we have our reference point, let’s add the annotations.</p>
+<pre class="r"><code>plot_nyt +
+    annotate(&quot;text&quot;, x = label_vals$date, 
+             y = label_vals$smooth * 1.4, 
+             label = &quot;7-day\naverage&quot;,
+             size = 3.5,
+             fontface = &quot;plain&quot;) +
+    annotate(&quot;segment&quot;, x = label_vals$date, xend = label_vals$date,
+             y = label_vals$smooth, 
+             yend = label_vals$smooth * 1.2,
+             size = .25) </code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>There you have it, a quality chart worthy of publication in the New York Times. This example should be easy to adapt to any similar time-series data you might have. Good luck!</p>
+</div>
