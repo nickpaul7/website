@@ -22,8 +22,8 @@ params:
     #  title: BOOKS
     - href: /top/archive/
       title: ARCHIVE
-    - href: /top/about/
-      title: ABOUT
+#    - href: /top/about/
+ #     title: ABOUT
   algolia:
     params:
       - categories

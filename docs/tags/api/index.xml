@@ -13,9 +13,9 @@
       <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>/post/2021-12-03-nhl-api-single-season-stats/</guid>
-      <description>Import Libraries Find Player ID Collect Data  The NHL has an unpublished API that makes grabbing stats pretty painless. In this post we will walk through how to grab year-by-year stats for a particular player using python.
-Import Libraries To get started, we will import the following libraries:
- requests - Conduct the API call json - Convert the returned data to a python list pandas - Conduct data manipulation  import requests import json import pandas as pd  Find Player ID To collect player data from the NHL API, we first need their player ID, which can be found using the NHL’s suggest end point.</description>
+      <description>Import LibrariesFind Player IDCollect DataThe NHL has an unpublished API that makes grabbing stats pretty painless. In this post we will walk through how to grab year-by-year stats for a particular player using python.
+Import LibrariesTo get started, we will import the following libraries:
+requests - Conduct the API calljson - Convert the returned data to a python listpandas - Conduct data manipulationimport requestsimport jsonimport pandas as pdFind Player IDTo collect player data from the NHL API, we first need their player ID, which can be found using the NHL’s suggest end point.</description>
     </item>
     
   </channel>

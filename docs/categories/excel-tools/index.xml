@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Excel Tools on Nick Paul&#39;s Blog</title>
+    <link>/categories/excel-tools/</link>
+    <description>Recent content in Excel Tools on Nick Paul&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 11 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="/categories/excel-tools/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Excel Tools</title>
+      <link>/post/2022-04-11-excel-tools/</link>
+      <pubDate>Mon, 11 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2022-04-11-excel-tools/</guid>
+      <description>DasboardsAutomationCore FeaturesNext StepsExcel is a popular, easy-to-use, and powerful tool. Most importantly, most people already have Excel, so the cost of an Excel tool is extremely low! If you are a small business or have limited resources to commit to a data solution, an Excel based tool is a great option to consider. As one of my professors in grad school used to say: “we went to the moon using a slide rule, so Excel can solve most problems that exist on earth!</description>
+    </item>
+    
+  </channel>
+</rss>
