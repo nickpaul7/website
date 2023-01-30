@@ -44,7 +44,7 @@ If you need to create standard reports from your data, Excel and its programming
 
 In a recent example, I created a workbook where a user can generate standardized, professional reports, which have built-in formulas to lookup values and calculate totals. A user can also generate summary reports that aggregate results from generated reports.
 
-<!-- #![](smartvolt_summary.png) -->
+#![](smartvolt_summary.png)
 
 # Core Features that Drive Useful Excel Tools
 
